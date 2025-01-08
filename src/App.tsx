@@ -1,35 +1,37 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { SnackbarProvider } from 'notistack'
+import { BrowserRouter, Route, Routes } from 'react-router'
+
+import AddExpensesPage from './pages/AddExpensesPage'
+import AddIncomePage from './pages/AddIncomePage'
 
 function App() {
-  const [count, setCount] = useState(0)
+	return (
+		<SnackbarProvider
+			maxSnack={3}
+			autoHideDuration={2500}
+			preventDuplicate={true}>
+			<BrowserRouter>
+				<Routes>
+					<Route path="/addexpenses" element={<AddExpensesPage />} />
+					<Route path="/addincome" element={<AddIncomePage />} />
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+					{/* <Route element={<RequireAuth />}>
+						<Route path="/" element={<ClassesPage />} />
+
+						<Route path="/group">
+							<Route path=":id" element={<StudentsPage />} />
+						</Route>
+
+						<Route path="/student">
+							<Route path=":id" element={<StudentInfoPage />} />
+						</Route>
+
+						<Route path="/schedule" element={<ReschedulePage />} />
+					</Route> */}
+				</Routes>
+			</BrowserRouter>
+		</SnackbarProvider>
+	)
 }
 
 export default App
