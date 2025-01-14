@@ -1,14 +1,12 @@
-interface HeaderOptions {
-    title: string;
-    endpoint: string;
-}
+import styles from './Header.module.css';
+import MenuBurger from '../MenuBurger/MenuBurger';
 
 function Header() {
     return (
-        <header>
-            <h1>Header</h1>
+        <header className={styles.header}>
+            <MenuBurger />
         </header>
-    )
+    );
 }
 
 export default Header;
