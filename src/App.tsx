@@ -8,6 +8,7 @@ import DashboardPage from './pages/DashboardPage/DashboardPage';
 import Header from './components/Header';
 import Footer from './components/Footer/Footer';
 import './App.css';
+import DetailedSummaryPage from './pages/DetailedSummaryPage/DetailedSummaryPage';
 
 function App() {
     return (
@@ -26,6 +27,10 @@ function App() {
                     <Route
                         path={ROUTES.ADD_INCOME}
                         element={<AddIncomePage />}
+                    />
+                    <Route
+                        path={ROUTES.DETAILED_SUMMARY}
+                        element={<DetailedSummaryPage />}
                     />
                     <Route
                         path={ROUTES.ACCOUNT}
