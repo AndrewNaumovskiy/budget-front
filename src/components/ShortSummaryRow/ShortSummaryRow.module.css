@@ -1,0 +1,28 @@
+.shortSummaryRow {
+    display: flex;
+    justify-content: space-between;
+}
+
+.shortSummaryRowItemValue {
+    margin-left: auto;
+    margin-right: 5px;
+}
+
+.shortSummaryRowItemLabel {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-weight: 600;
+    color: #7d7e77;
+}
+
+.shortSummaryRowItemPoint {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+}
+
+.shortSummaryRowItemValue {
+    font-weight: 600;
+    color:#434341;
+}
