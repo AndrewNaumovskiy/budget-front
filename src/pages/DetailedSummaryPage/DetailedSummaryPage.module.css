@@ -1,0 +1,8 @@
+.categoriesSummaryCharts {
+    display: flex;
+    margin-top: 20px;
+    padding: 0 15px;
+    justify-content: space-around;
+    gap: 30px;
+    flex-wrap: wrap;
+}

@@ -3,3 +3,7 @@ export interface SummeryItem {
     value: string,
     pointColor: string
 }
+
+export interface ExpensesByCategories {
+    [key: string]: number;
+}   
