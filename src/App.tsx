@@ -52,6 +52,10 @@ function App() {
                         path={ROUTES.SETTINGS.route}
                         element={<div>Settings Page</div>}
                     />
+                    <Route
+                        path={ROUTES.TRANSACTION_DETAILS.route + '/:id'}
+                        element={<div>Transaction Details Page</div>}
+                    />
                 </Routes>
                 <Footer />
             </BrowserRouter>

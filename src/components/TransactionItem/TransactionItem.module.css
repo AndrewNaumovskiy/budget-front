@@ -1,0 +1,19 @@
+.transactionItem {
+    padding: 10px 20px;
+    background-color: white;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.amount {
+    margin-left: 10px;
+    margin-right: auto;
+    color: #434341;
+}
+
+.category {
+    color: #7d7e77
+}

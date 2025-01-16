@@ -25,7 +25,8 @@ function Header() {
         const currentPath = location.pathname;
 
         const foundedRouteName = Object.keys(ROUTES).find(
-            (key) => ROUTES[key].route === currentPath,
+            (key) =>
+                currentPath.split('/')[1] === ROUTES[key].route.split('/')[1],
         )!;
 
         setRouteName(ROUTES[foundedRouteName].name || 'Unknown page');
