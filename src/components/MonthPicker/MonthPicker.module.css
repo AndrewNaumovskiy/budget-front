@@ -1,0 +1,19 @@
+.monthPickerContainer {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 20px 0;
+}
+
+.monthPickerContainer input {
+    width: 70%;
+    padding: 10px;
+    border: 1px solid #7d7e77;
+    border-radius: 10px;
+    text-align: center;
+    background-color: transparent;
+    outline: none;
+    font-family: 'Roboto', sans-serif;
+    color: #434341;
+    font-size: larger;
+}

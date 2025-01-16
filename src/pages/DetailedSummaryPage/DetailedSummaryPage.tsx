@@ -3,6 +3,7 @@ import SummaryBigDoughnutChart from '../../components/SummaryBigDoughnutChart/Su
 import styles from './DetailedSummaryPage.module.css';
 import { ExpensesByCategories } from '../../types';
 import SmallCategoryDoughnutChart from '../../components/SmallCategoryDoughnutChart/SmallCategoryDoughnutChart';
+import MonthPicker from '../../components/MonthPicker/MonthPicker';
 
 const CATEGORIES_CHART_COLORS: { [key: string]: string } = {
     0: '#e33a9c',
@@ -25,6 +26,9 @@ const CATEGORIES_CHART_COLORS: { [key: string]: string } = {
 };
 
 function DetailedSummaryPage() {
+    const [selectedMonth, setSelectedMonth] = useState<string>('');
+    const [min, setMin] = useState<string>('');
+
     const [expensesByCategories, setExpensesByCategories] =
         useState<ExpensesByCategories>({});
 
@@ -40,6 +44,10 @@ function DetailedSummaryPage() {
         }),
         [],
     );
+
+    const handleMonthChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setSelectedMonth(event.target.value);
+    };
 
     useEffect(() => {
         // Fetch expenses by categories
@@ -58,8 +66,27 @@ function DetailedSummaryPage() {
         setExpensesByCategories(percentages);
     }, [expensesSumOverall, expensesSumByCategory]);
 
+    useEffect(() => {
+        const now = new Date();
+        const currentMonth = `${now.getFullYear()}-${
+            now.getMonth() + 1 < 10 ? '0' : ''
+        }${now.getMonth() + 1}`;
+
+        const minMonth = `${now.getFullYear() - 1}-${
+            now.getMonth() + 1 < 10 ? '0' : ''
+        }${now.getMonth() + 1}`;
+
+        setMin(minMonth);
+        setSelectedMonth(currentMonth);
+    }, []);
+
     return (
-        <div>
+        <div className={styles.detailedSummaryPage}>
+            <MonthPicker
+                min={min}
+                value={selectedMonth}
+                onChange={handleMonthChange}
+            />
             <SummaryBigDoughnutChart />
             <div className={styles.categoriesSummaryCharts}>
                 {Object.keys(expensesByCategories).map((category, index) => {
