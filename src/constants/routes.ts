@@ -29,5 +29,8 @@ export const ROUTES: { [key: string]: Route } = {
         name: 'Statistics',
         route: '/statistics',
     },
-
+    SETTINGS: {
+        name: 'Settings',
+        route: '/settings',
+    },
 }

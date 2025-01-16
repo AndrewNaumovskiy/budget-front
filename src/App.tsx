@@ -48,6 +48,10 @@ function App() {
                         path={ROUTES.STATISTICS.route}
                         element={<div>Statistics Page</div>}
                     />
+                    <Route
+                        path={ROUTES.SETTINGS.route}
+                        element={<div>Settings Page</div>}
+                    />
                 </Routes>
                 <Footer />
             </BrowserRouter>
