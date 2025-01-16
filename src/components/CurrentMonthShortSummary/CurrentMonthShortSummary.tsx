@@ -13,7 +13,7 @@ function CurrentMonthShortSummary() {
     ];
 
     const handleNavigateToDetailedSummary = () => {
-        navigate(ROUTES.DETAILED_SUMMARY);
+        navigate(ROUTES.DETAILED_SUMMARY.route);
     };
     return (
         <div

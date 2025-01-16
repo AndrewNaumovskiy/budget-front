@@ -21,32 +21,32 @@ function App() {
                 <Header />
                 <Routes>
                     <Route
-                        path={ROUTES.ADD_EXPENSES}
+                        path={ROUTES.ADD_EXPENSES.route}
                         element={<AddExpensesPage />}
                     />
                     <Route
-                        path={ROUTES.ADD_INCOME}
+                        path={ROUTES.ADD_INCOME.route}
                         element={<AddIncomePage />}
                     />
                     <Route
-                        path={ROUTES.DETAILED_SUMMARY}
+                        path={ROUTES.DASHBOARD.route}
+                        element={<DashboardPage />}
+                    />
+                    <Route
+                        path={ROUTES.DETAILED_SUMMARY.route}
                         element={<DetailedSummaryPage />}
                     />
                     <Route
-                        path={ROUTES.ACCOUNT}
+                        path={ROUTES.ACCOUNT.route}
                         element={<div>Account Page</div>}
                     />
                     <Route
-                        path={ROUTES.SAVINGS}
+                        path={ROUTES.SAVINGS.route}
                         element={<div>Savings Page</div>}
                     />
                     <Route
-                        path={ROUTES.STATISTICS}
+                        path={ROUTES.STATISTICS.route}
                         element={<div>Statistics Page</div>}
-                    />
-                    <Route
-                        path={ROUTES.DASHBOARD}
-                        element={<DashboardPage />}
                     />
                 </Routes>
                 <Footer />

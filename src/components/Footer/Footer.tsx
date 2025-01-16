@@ -14,24 +14,24 @@ function Footer() {
             {
                 icon: IoHomeOutline,
                 text: 'Home',
-                route: ROUTES.DASHBOARD,
+                route: ROUTES.DASHBOARD.route,
             },
             {
                 icon: AiOutlinePieChart,
                 text: 'Statistics',
-                route: ROUTES.STATISTICS,
+                route: ROUTES.STATISTICS.route,
             },
         ],
         secondGroup: [
             {
                 icon: MdOutlineSavings,
                 text: 'Savings',
-                route: ROUTES.SAVINGS,
+                route: ROUTES.SAVINGS.route,
             },
             {
                 icon: RxAvatar,
                 text: 'Account',
-                route: ROUTES.ACCOUNT,
+                route: ROUTES.ACCOUNT.route,
             },
         ],
     };
