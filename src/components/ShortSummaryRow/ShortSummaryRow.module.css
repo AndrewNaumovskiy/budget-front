@@ -11,7 +11,7 @@
 .shortSummaryRowItemLabel {
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 8px;
     font-weight: 600;
     color: #7d7e77;
 }
