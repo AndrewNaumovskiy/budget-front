@@ -29,7 +29,7 @@ function IncomeExpenseChart() {
                             label: 'Expense',
                             data: [200, 50, 150, 200, 300, 100],
                             backgroundColor: '#bea100',
-                            stack: 'Stack 0',
+                            stack: 'Stack 1',
                         },
                     ],
                 }}
