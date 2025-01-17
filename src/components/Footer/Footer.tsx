@@ -5,6 +5,7 @@ import { MdOutlineSavings } from 'react-icons/md';
 import { RxAvatar } from 'react-icons/rx';
 import { useNavigate } from 'react-router';
 import { ROUTES } from '../../constants/routes';
+import AddExpensesButton from './AddExpensesButton/AddExpensesButton';
 
 function Footer() {
     const navigate = useNavigate();
@@ -55,9 +56,7 @@ function Footer() {
                 ))}
             </div>
             <div className={styles.menuCenter}>
-                <div className={styles.centerButtonContainer}>
-                    <button className={styles.centerButton}>+</button>
-                </div>
+                <AddExpensesButton />
             </div>
             <div className={styles.menuGroup}>
                 {MENU_ITEMS.secondGroup.map((item, index) => (

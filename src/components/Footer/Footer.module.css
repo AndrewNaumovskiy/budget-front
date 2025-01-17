@@ -29,35 +29,6 @@
 
 .menuCenter {
     flex: 0.5;
-}
-
-.centerButtonContainer {
-    background-color: #f8f9f2;
-    transform: translateY(-50%);
-    border-radius: 0 0 50px 50px;
     display: flex;
     justify-content: center;
-    align-items: center;
-    padding-bottom: 10px;
-}
-
-.centerButton {
-    width: 60px;
-    height: 60px;
-    background-color: #007a57;
-    color: #f3f5e4;
-    border: none;
-    border-radius: 50%;
-    font-size: 45px;
-    font-weight: bold;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-    cursor: pointer;
-    outline: none;
-}
-
-.centerButton:hover {
-    background-color: #005f3b;
 }
