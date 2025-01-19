@@ -5,8 +5,11 @@ import { useEffect, useState } from 'react';
 import styles from './ExpenseDetailsForm.module.css';
 import { Option, SubCategory } from '../../types';
 import Picker from '../Picker/Picker';
+import TextareaField from '../TextareaField/TextareaField';
 
 function ExpenseDetailsForm() {
+    const [desc, setDesc] = useState('');
+
     const [categories, setCategories] = useState<Option[]>([]);
     const [subCategories, setSubCategories] = useState<SubCategory>({});
 
@@ -47,6 +50,10 @@ function ExpenseDetailsForm() {
 
     const handleAccountChange = (account: string) => {
         setSelectedAccount(account);
+    };
+
+    const handleChangeDesc = (value: string) => {
+        setDesc(value);
     };
 
     useEffect(() => {
@@ -139,6 +146,11 @@ function ExpenseDetailsForm() {
                     onChange={handleAccountChange}
                 />
             ) : null}
+            <TextareaField
+                label="Description"
+                value={desc}
+                onChange={handleChangeDesc}
+            />
         </div>
     );
 }
