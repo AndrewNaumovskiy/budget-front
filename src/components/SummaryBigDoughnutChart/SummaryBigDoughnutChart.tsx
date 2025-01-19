@@ -6,12 +6,12 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 
 function SummaryBigDoughnutChart() {
     const data = {
-        labels: ['Income', 'Expenses', 'Left for Saving'],
+        labels: ['Expenses', 'Savings', 'Unspecified'],
         datasets: [
             {
                 label: '',
-                data: [5000, 2000, 3000],
-                backgroundColor: ['#007a57', '#bea100', '#7d7e77'],
+                data: [2000, 3000, 1000],
+                backgroundColor: ['#e30000', '#7d7e77', '#bea100'],
                 borderWidth: 0,
                 cutout: '90%',
             },
