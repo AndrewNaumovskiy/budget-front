@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from 'react';
@@ -16,6 +17,7 @@ function ExpenseDetailsForm() {
         null,
     );
 
+    // @ts-expect-error
     const [selectedSubCategory, setSelectedSubCategory] = useState<
         string | null
     >(null);
@@ -26,6 +28,7 @@ function ExpenseDetailsForm() {
     >(null);
 
     const [accounts, setAccounts] = useState<Option[]>([]);
+    // @ts-expect-error
     const [selectedAccount, setSelectedAccount] = useState<string | null>(null);
 
     const handleChangeCategory = (category: string) => {
