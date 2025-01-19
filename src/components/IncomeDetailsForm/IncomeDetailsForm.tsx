@@ -8,6 +8,8 @@ function IncomeDetailsForm() {
     const [desc, setDesc] = useState('');
     const [typesOfIncome, setTypesOfIncome] = useState<Option[]>([]);
 
+    const [accounts, setAccounts] = useState<Option[]>([]);
+
     const handleChangeDesc = (value: string) => {
         setDesc(value);
     };
@@ -20,6 +22,13 @@ function IncomeDetailsForm() {
         ];
 
         setTypesOfIncome(fetchedTypesOfIncome);
+
+        const fetchedAccounts: Option[] = [
+            { label: 'PrivatBank', value: 'privat_bank' },
+            { label: 'Monobank', value: 'monobank' },
+        ];
+
+        setAccounts(fetchedAccounts);
     }, []);
 
     return (
@@ -27,6 +36,11 @@ function IncomeDetailsForm() {
             <Picker
                 data={typesOfIncome}
                 label="Type of income"
+                onChange={() => {}}
+            />
+            <Picker
+                data={accounts}
+                label="Select account"
                 onChange={() => {}}
             />
             <TextareaField
