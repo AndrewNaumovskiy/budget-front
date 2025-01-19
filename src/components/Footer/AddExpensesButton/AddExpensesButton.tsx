@@ -5,14 +5,14 @@ import { ROUTES } from '../../../constants/routes';
 function AddExpensesButton() {
     const navigate = useNavigate();
 
-    const handleNavigateToAddExpensesPage = () => {
-        navigate(ROUTES.ADD_EXPENSES.route);
+    const handleNavigateToAddEntryPage = () => {
+        navigate(ROUTES.ADD_ENTRY.route);
     };
 
     return (
         <div
             className={styles.centerButtonContainer}
-            onClick={handleNavigateToAddExpensesPage}
+            onClick={handleNavigateToAddEntryPage}
         >
             <div className={styles.bottomContainer}></div>
             <button className={styles.centerButton}>+</button>

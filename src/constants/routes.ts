@@ -1,6 +1,10 @@
 import { Route } from "../types/Route";
 
 export const ROUTES: { [key: string]: Route } = {
+    ADD_ENTRY: {
+        name: 'Select Entry Type',
+        route: '/add-entry',
+    },
     ADD_EXPENSES: {
         name: 'Add Expenses',
         route: '/add-expenses',

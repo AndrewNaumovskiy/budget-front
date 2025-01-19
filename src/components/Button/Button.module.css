@@ -1,0 +1,30 @@
+.button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    background-color: #00312f;
+    color: #f8f9f2;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.success {
+    background-color: #00312f;
+}
+
+.error {
+    background-color: #bea100;
+}
+
+.disabled {
+    background-color: #7d7e77;
+    cursor: not-allowed;
+}
+
+.none {
+    background-color: transparent;
+    border: 1px solid #00312f;
+    color: #00312f;
+}

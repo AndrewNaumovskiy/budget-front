@@ -1,0 +1,6 @@
+.buttonContainer{
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 10px 20px;
+}

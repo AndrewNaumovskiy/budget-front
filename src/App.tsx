@@ -9,6 +9,7 @@ import Header from './components/Header';
 import Footer from './components/Footer/Footer';
 import './App.css';
 import DetailedSummaryPage from './pages/DetailedSummaryPage/DetailedSummaryPage';
+import AddEntryPage from './pages/AddEntryPage/AddEntryPage';
 
 function App() {
     return (
@@ -20,6 +21,10 @@ function App() {
             <BrowserRouter>
                 <Header />
                 <Routes>
+                    <Route
+                        path={ROUTES.ADD_ENTRY.route}
+                        element={<AddEntryPage />}
+                    />
                     <Route
                         path={ROUTES.ADD_EXPENSES.route}
                         element={<AddExpensesPage />}
