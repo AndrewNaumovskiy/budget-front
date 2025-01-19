@@ -1,8 +1,11 @@
+import SumEntryField from '../../components/SumEntryField/SumEntryField';
+import styles from './AddExpensesPage.module.css';
+
 function ExpensesPage() {
     return (
-        <>
-            <h1>Expenses Page</h1>
-        </>
+        <div className={styles.addExpensesContainer}>
+            <SumEntryField />
+        </div>
     );
 }
 
