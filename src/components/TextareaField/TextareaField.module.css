@@ -1,0 +1,23 @@
+.textareaContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.label {
+    font-family: 'Roboto', sans-serif;
+    color: #434341;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+
+.textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    resize: none;
+    outline: none;
+}
