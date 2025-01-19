@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from 'react';
 import styles from './ExpenseDetailsForm.module.css';
 import { Option, SubCategory } from '../../types';
@@ -13,6 +15,7 @@ function ExpenseDetailsForm() {
     const [selectedCategory, setSelectedCategory] = useState<string | null>(
         null,
     );
+
     const [selectedSubCategory, setSelectedSubCategory] = useState<
         string | null
     >(null);
