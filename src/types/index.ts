@@ -1,9 +1,3 @@
-export interface SummeryItem {
-    label: string,
-    value: string,
-    pointColor: string
-}
-
-export interface ExpensesByCategories {
-    [key: string]: number;
-}   
+export * from './SummeryItem';
+export * from './Option';
+export * from './SubCategory';

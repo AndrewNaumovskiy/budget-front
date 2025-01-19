@@ -1,0 +1,27 @@
+.pickerContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: start;
+}
+
+
+.picker {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #7d7e77;
+    border-radius: 10px;
+    text-align: start;
+    background-color: transparent;
+    outline: none;
+    font-family: 'Roboto', sans-serif;
+    color: #434341;
+    font-size: larger;
+}
+
+.label {
+    font-family: 'Roboto', sans-serif;
+    color: #434341;
+    font-size: 14px;
+    font-weight: 500;
+}

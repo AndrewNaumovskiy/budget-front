@@ -1,3 +1,19 @@
 .addExpensesContainer {
     padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+
+.saveButton {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    background-color: #00312f;
+    color: white;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
 }
