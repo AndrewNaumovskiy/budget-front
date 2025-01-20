@@ -1,3 +1,4 @@
+import { Account } from "./Account";
 import { TransactionType } from "./TransactionType";
 
 export interface Transaction {
@@ -5,4 +6,6 @@ export interface Transaction {
     type: TransactionType;
     category: string;
     amount: number;
+    account: Account;
+    time: string;
 }

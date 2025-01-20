@@ -9,11 +9,29 @@
 }
 
 .amount {
-    margin-left: 10px;
-    margin-right: auto;
     color: #434341;
+    font-size: 1.2rem;
+}
+
+.time {
+    color: #7d7e77;
+    font-size: 0.8rem;
 }
 
 .category {
     color: #7d7e77
+}
+
+.centralContainer {
+    margin-left: 10px;
+    margin-right: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.container {
+    display: flex;
+    gap: 10px;
+    align-items: center;
 }
