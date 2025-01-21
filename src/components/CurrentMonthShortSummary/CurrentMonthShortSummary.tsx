@@ -36,7 +36,6 @@ function CurrentMonthShortSummary() {
 
     useEffect(() => {
         if (data) {
-            console.error('data', data);
             parseDataToSummaryItems(data.data);
         }
     }, [data]);

@@ -14,7 +14,6 @@ function TransactionItem({ transaction }: TransactionItemProps) {
     const navigate = useNavigate();
 
     const handleNavigateToTransactionDetails = () => {
-        console.error(`${ROUTES.TRANSACTION_DETAILS.route}/${transaction.id}`);
         navigate(`${ROUTES.TRANSACTION_DETAILS.route}/${transaction.id}`);
     };
 
