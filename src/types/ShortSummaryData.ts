@@ -1,6 +1,6 @@
 export interface ShortSummaryData {
     income: number;
-    expense: number;
+    expenses: number;
     savings: number;
     unspecified: number;
 }

@@ -1,9 +1,9 @@
-import { SummeryItem } from '../../types';
+import { SummaryItem } from '../../types';
 import styles from './ShortSummaryRow.module.css';
 import { IoIosArrowForward } from 'react-icons/io';
 
 interface ShortSummaryRowProps {
-    summaryItem: SummeryItem;
+    summaryItem: SummaryItem;
 }
 
 function ShortSummaryRow({ summaryItem }: ShortSummaryRowProps) {
