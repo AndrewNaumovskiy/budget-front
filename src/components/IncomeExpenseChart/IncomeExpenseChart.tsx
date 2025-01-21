@@ -8,11 +8,34 @@ import {
     BarElement,
 } from 'chart.js';
 import { getLastSixMonths } from '../../utils/getLastSixMonths';
-import React from 'react';
+import React, { useEffect } from 'react';
+import useSWR from 'swr';
+import { API_URLs } from '../../constants/API_URLs';
+import { getFetcher } from '../../api/fetchers';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend);
+
 function IncomeExpenseChart() {
+    const [incomeData, setIncomeData] = React.useState<number[]>([]);
+    const [expenseData, setExpenseData] = React.useState<number[]>([]);
+
+    const { data, isLoading, error } = useSWR(
+        API_URLs.GET_LAST_SIX_MONTHS_DATA,
+        getFetcher,
+    );
+
     const labels = getLastSixMonths();
+
+    useEffect(() => {
+        if (data) {
+            setIncomeData(data.data.income);
+            setExpenseData(data.data.expense);
+        }
+    }, [data]);
+
+    if (isLoading) return <div>Loading...</div>;
+    if (error) return <div>Error loading data</div>;
+
     return (
         <React.Fragment>
             <Bar
@@ -21,13 +44,13 @@ function IncomeExpenseChart() {
                     datasets: [
                         {
                             label: 'Income',
-                            data: [200, 200, 300, 100, 500, 600],
+                            data: incomeData,
                             backgroundColor: '#00312f',
                             stack: 'Stack 0',
                         },
                         {
                             label: 'Expense',
-                            data: [200, 50, 150, 200, 300, 100],
+                            data: expenseData,
                             backgroundColor: '#bea100',
                             stack: 'Stack 1',
                         },
