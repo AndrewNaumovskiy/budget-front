@@ -1,57 +1,56 @@
-import { Account } from '../../types/Account';
+import useSWR from 'swr';
 import { Transaction } from '../../types/Transaction';
 import TransactionItem from '../TransactionItem/TransactionItem';
 import styles from './RecentTransactionsList.module.css';
+import { API_URLs } from '../../constants/API_URLs';
+import { getFetcher } from '../../api/fetchers';
+import { useEffect, useState } from 'react';
+import { getTime } from '../../utils/getTime';
 
 function RecentTransactionsList() {
-    const RECENT_TRANSACTIONS: Transaction[] = [
-        {
-            id: 1,
-            type: 'expense',
-            category: 'Shopping',
-            amount: 100,
-            account: Account.PrivatBank,
-            time: '12:00',
-        },
-        {
-            id: 2,
-            type: 'expense',
-            category: 'Food',
-            amount: 300,
-            account: Account.Monobank,
-            time: '11:58',
-        },
-        {
-            id: 3,
-            type: 'income',
-            category: 'Salary',
-            amount: 2000,
-            account: Account.Ukrsibbank,
-            time: '11:36',
-        },
-        {
-            id: 4,
-            type: 'income',
-            category: 'Transfer',
-            amount: 500,
-            account: Account.None,
-            time: '11:11',
-        },
-        {
-            id: 5,
-            type: 'expense',
-            category: 'Health',
-            amount: 400,
-            account: Account.PrivatBank,
-            time: '10:09',
-        },
-    ];
+    const { data, isLoading, error } = useSWR(
+        API_URLs.GET_RECENT_TRANSACTIONS,
+        getFetcher,
+    );
+
+    const [recentTransactions, setRecentTransactions] = useState<Transaction[]>(
+        [],
+    );
+
+    const parseDataToRecentTransactions = (data: Transaction[]) => {
+        const updatedData = data.map((transaction) => {
+            return {
+                id: transaction.id,
+                type: transaction.type,
+                categoryName: transaction.categoryName,
+                amount: transaction.amount,
+                accountName: transaction.accountName,
+                date: getTime(transaction.date),
+            };
+        });
+
+        setRecentTransactions(updatedData);
+    };
+
+    useEffect(() => {
+        if (data) {
+            parseDataToRecentTransactions(data.data.transactions);
+        }
+    }, [data]);
+
+    if (isLoading) {
+        return <div>Loading...</div>;
+    }
+
+    if (error) {
+        return <div>Error: {error}</div>;
+    }
 
     return (
         <>
             <h3>Recent Transactions</h3>
             <div className={styles.recentTransactionsList}>
-                {RECENT_TRANSACTIONS.map((transaction) => (
+                {recentTransactions.map((transaction) => (
                     <TransactionItem
                         key={transaction.id}
                         transaction={transaction}

@@ -1,6 +1,6 @@
 export enum Account {
-    PrivatBank = 'PrivatBank',
-    Monobank = 'Monobank',
-    Ukrsibbank = 'Ukrsibbank',
+    PrivatBank = 'Privat',
+    Monobank = 'Mono',
+    Ukrsibbank = 'Ukrsib',
     None = 'None',
 }

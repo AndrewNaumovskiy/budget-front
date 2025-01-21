@@ -4,8 +4,8 @@ import { TransactionType } from "./TransactionType";
 export interface Transaction {
     id: number;
     type: TransactionType;
-    category: string;
+    categoryName: string;
     amount: number;
-    account: Account;
-    time: string;
+    accountName: Account;
+    date: string;
 }
