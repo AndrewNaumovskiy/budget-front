@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react';
 import { ShortSummaryData } from '../../types/ShortSummaryData';
 import { SHORT_SUMMARY_ITEMS } from '../../constants/shortSummaryItems';
 import { SummaryItem } from '../../types';
+import SomethingWentWrong from '../SomethingWentWrong/SomethingWentWrong';
 
 function CurrentMonthShortSummary() {
     const navigate = useNavigate();
@@ -18,6 +19,9 @@ function CurrentMonthShortSummary() {
     const { data, isLoading, error } = useSWR(
         API_URLs.GET_SHORT_SUMMARY,
         getFetcher,
+        {
+            shouldRetryOnError: false,
+        },
     );
 
     const handleNavigateToDetailedSummary = () => {
@@ -34,6 +38,10 @@ function CurrentMonthShortSummary() {
         setSummaryData(updatedData);
     };
 
+    const handleFetch = () => {
+        getFetcher(API_URLs.GET_SHORT_SUMMARY);
+    };
+
     useEffect(() => {
         if (data) {
             parseDataToSummaryItems(data.data);
@@ -41,11 +49,16 @@ function CurrentMonthShortSummary() {
     }, [data]);
 
     if (isLoading) {
-        return <div>Loading...</div>;
+        return null;
     }
 
     if (error) {
-        return <div>Error</div>;
+        return (
+            <SomethingWentWrong
+                tryAgain={handleFetch}
+                title={'Failed to fetch short summary'}
+            />
+        );
     }
 
     return (
