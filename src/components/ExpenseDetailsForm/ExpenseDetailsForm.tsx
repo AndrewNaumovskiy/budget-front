@@ -3,13 +3,13 @@ import styles from './ExpenseDetailsForm.module.css';
 import { Option } from '../../types';
 import Picker from '../Picker/Picker';
 import TextareaField from '../TextareaField/TextareaField';
-import { useCategories } from '../hooks/useCategories';
+import { useCategories } from '../../hooks/useCategories';
 import useSWR from 'swr';
 import { API_URLs } from '../../constants/API_URLs';
 import { getFetcher } from '../../api/fetchers';
 import useAddExpensesStore from '../../state/stores/addExpensesStore';
 import { CategoryWithSubCategories } from '../../types/CategoryWithSubCategories';
-import { useSubCategories } from '../hooks/useSubCategories';
+import { useSubCategories } from '../../hooks/useSubCategories';
 
 interface ExpenseDetailsFormProps {
     onDetailsChange: (field: string, value: string) => void;
