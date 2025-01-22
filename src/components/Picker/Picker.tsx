@@ -5,13 +5,15 @@ interface PickerProps {
     data: Option[];
     onChange: (value: string) => void;
     label?: string;
+    value: string | null;
 }
 
-function Picker({ data, onChange, label }: PickerProps) {
+function Picker({ data, onChange, label, value }: PickerProps) {
     return (
         <div className={styles.pickerContainer}>
             {label ? <label className={styles.label}>{label}</label> : null}
             <select
+                value={value || ''}
                 className={styles.picker}
                 onChange={(e) => onChange(e.target.value)}
             >

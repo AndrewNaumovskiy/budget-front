@@ -1,15 +1,11 @@
-import { ChangeEvent, useState } from 'react';
+import React from 'react';
 import styles from './SumEntryField.module.css';
-import CurrencyPicker from '../CurrencyPicker/CurrencyPicker';
 
-function SumEntryField() {
-    //const [value, setValue] = useState(0);
-    const [currency, setCurrency] = useState('UAH');
-
-    const handleChangeCurrency = (e: ChangeEvent<HTMLSelectElement>) => {
-        setCurrency(e.target.value);
-    };
-
+interface SumEntryFieldProps {
+    sum: number;
+    handleChangeSum: (value: number) => void;
+}
+function SumEntryField({ sum, handleChangeSum }: SumEntryFieldProps) {
     const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
         if (
             e.key === 'Enter' ||
@@ -20,6 +16,12 @@ function SumEntryField() {
         ) {
             e.preventDefault();
         }
+
+        handleChangeSum(Number(e.currentTarget.textContent || 0));
+    };
+
+    const handleOnBlur = (e: React.FocusEvent<HTMLDivElement>) => {
+        handleChangeSum(Number(e.currentTarget.textContent?.trim() || 0));
     };
 
     return (
@@ -31,13 +33,11 @@ function SumEntryField() {
                     contentEditable
                     suppressContentEditableWarning={true}
                     onKeyDown={handleKeyDown}
+                    onBlur={handleOnBlur}
                 >
-                    0
+                    {sum}
                 </div>
-                <CurrencyPicker
-                    value={currency}
-                    onChange={handleChangeCurrency}
-                />
+                <h3>UAH</h3>
             </div>
         </div>
     );

@@ -17,7 +17,7 @@ const useDashboardStore = create<DashboardStore>((set) => ({
     },
     shortSummaryData: {
         income: 0,
-        expense: 0,
+        expenses: 0,
         savings: 0,
         unspecified: 0,
     },
