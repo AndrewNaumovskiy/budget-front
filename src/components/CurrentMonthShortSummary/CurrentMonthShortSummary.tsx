@@ -10,6 +10,7 @@ import { ShortSummaryData } from '../../types/ShortSummaryData';
 import { SHORT_SUMMARY_ITEMS } from '../../constants/shortSummaryItems';
 import { SummaryItem } from '../../types';
 import SomethingWentWrong from '../SomethingWentWrong/SomethingWentWrong';
+import { enqueueSnackbar } from 'notistack';
 
 function CurrentMonthShortSummary() {
     const navigate = useNavigate();
@@ -53,12 +54,9 @@ function CurrentMonthShortSummary() {
     }
 
     if (error) {
-        return (
-            <SomethingWentWrong
-                tryAgain={handleFetch}
-                title={'Failed to fetch short summary'}
-            />
-        );
+        enqueueSnackbar('Failed to fetch short summary', { variant: 'error' });
+
+        return <SomethingWentWrong tryAgain={handleFetch} />;
     }
 
     return (

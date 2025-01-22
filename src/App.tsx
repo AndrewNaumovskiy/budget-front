@@ -17,6 +17,11 @@ function App() {
             maxSnack={3}
             autoHideDuration={2500}
             preventDuplicate={true}
+            anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'center',
+            }}
+            style={{ bottom: '100px', position: 'absolute', width: '100%' }}
         >
             <BrowserRouter>
                 <Header />

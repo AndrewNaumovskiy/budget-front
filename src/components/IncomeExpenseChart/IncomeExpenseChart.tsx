@@ -14,6 +14,7 @@ import { API_URLs } from '../../constants/API_URLs';
 import { getFetcher } from '../../api/fetchers';
 import Loader from '../Loader/Loader';
 import SomethingWentWrong from '../SomethingWentWrong/SomethingWentWrong';
+import { enqueueSnackbar } from 'notistack';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend);
 
@@ -43,13 +44,14 @@ function IncomeExpenseChart() {
     }, [data]);
 
     if (isLoading) return <Loader />;
-    if (error)
-        return (
-            <SomethingWentWrong
-                tryAgain={handleFetch}
-                title="Failed to load income and expense for last 6 months"
-            />
-        );
+
+    if (error) {
+        enqueueSnackbar('Failed to load income and expense for last 6 months', {
+            variant: 'error',
+        });
+
+        return <SomethingWentWrong tryAgain={handleFetch} />;
+    }
 
     return (
         <React.Fragment>

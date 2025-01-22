@@ -7,6 +7,7 @@ import { getFetcher } from '../../api/fetchers';
 import { useEffect, useState } from 'react';
 import { getTime } from '../../utils/getTime';
 import SomethingWentWrong from '../SomethingWentWrong/SomethingWentWrong';
+import { enqueueSnackbar } from 'notistack';
 
 function RecentTransactionsList() {
     const { data, isLoading, error } = useSWR(
@@ -47,9 +48,11 @@ function RecentTransactionsList() {
     }
 
     if (error) {
-        return (
-            <SomethingWentWrong title="Failed to load recent transactions" />
-        );
+        enqueueSnackbar('Failed to load recent transactions', {
+            variant: 'error',
+        });
+
+        return <SomethingWentWrong />;
     }
 
     return (
