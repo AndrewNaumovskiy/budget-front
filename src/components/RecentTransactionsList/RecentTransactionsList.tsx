@@ -6,11 +6,15 @@ import { API_URLs } from '../../constants/API_URLs';
 import { getFetcher } from '../../api/fetchers';
 import { useEffect, useState } from 'react';
 import { getTime } from '../../utils/getTime';
+import SomethingWentWrong from '../SomethingWentWrong/SomethingWentWrong';
 
 function RecentTransactionsList() {
     const { data, isLoading, error } = useSWR(
         API_URLs.GET_RECENT_TRANSACTIONS,
         getFetcher,
+        {
+            shouldRetryOnError: false,
+        },
     );
 
     const [recentTransactions, setRecentTransactions] = useState<Transaction[]>(
@@ -39,11 +43,13 @@ function RecentTransactionsList() {
     }, [data]);
 
     if (isLoading) {
-        return <div>Loading...</div>;
+        return null;
     }
 
     if (error) {
-        return <div>Error: {error}</div>;
+        return (
+            <SomethingWentWrong title="Failed to load recent transactions" />
+        );
     }
 
     return (
