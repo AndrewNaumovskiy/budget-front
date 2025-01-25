@@ -3,12 +3,15 @@ import { API_URLs } from "../constants/API_URLs"
 import { getFetcher } from "../api/fetchers"
 import { useEffect, useMemo, useState } from "react";
 
-export const useDetailedSummaryForMonth = (initialMonth: number, initialYear: number) => {
+export const useDetailedSummaryForMonth = (initialMonth?: number, initialYear?: number) => {
     const url = useMemo(() => {
-        return `${API_URLs.GET_SHORT_SUMMARY}?month=${initialMonth}&year=${initialYear}`;
+        const month = initialMonth || new Date().getMonth() + 1;
+        const year = initialYear || new Date().getFullYear();
+
+        return `${API_URLs.GET_SHORT_SUMMARY}?month=${month}&year=${year}`;
     }, [initialMonth, initialYear]);
 
-    const { data, } = useSWR(url, getFetcher);
+    const { data, isLoading, error } = useSWR(url, getFetcher);
 
     const [income, setIncome] = useState<number>(0);
     const [expense, setExpense] = useState<number>(0);
@@ -32,6 +35,6 @@ export const useDetailedSummaryForMonth = (initialMonth: number, initialYear: nu
     }, [data]);
 
     return {
-        income, expense, savings, unspecified, handleDateChange
+        income, expense, savings, unspecified, handleDateChange, isLoading, error
     }
 }

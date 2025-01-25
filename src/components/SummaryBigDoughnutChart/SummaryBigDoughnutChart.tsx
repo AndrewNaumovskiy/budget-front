@@ -1,17 +1,13 @@
 import { Doughnut } from 'react-chartjs-2';
 import { Chart as ChartJS, Tooltip, Legend, ArcElement } from 'chart.js';
 import styles from './SummaryBigDoughnutChart.module.css';
-import { useMemo } from 'react';
 import { useDetailedSummaryForMonth } from '../../hooks/useDetailedSummaryForMonth';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 function SummaryBigDoughnutChart() {
-    const initialMonth = useMemo(() => new Date().getMonth() + 1, []);
-    const initialYear = useMemo(() => new Date().getFullYear(), []);
-
     const { income, expense, savings, unspecified } =
-        useDetailedSummaryForMonth(initialMonth, initialYear);
+        useDetailedSummaryForMonth();
 
     const data = {
         labels: ['Expenses', 'Savings', 'Unspecified'],
