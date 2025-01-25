@@ -6,37 +6,21 @@ interface SumEntryFieldProps {
     handleChangeSum: (value: number) => void;
 }
 function SumEntryField({ sum, handleChangeSum }: SumEntryFieldProps) {
-    const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
-        if (
-            e.key === 'Enter' ||
-            e.key === 'Tab' ||
-            e.key === 'Space' ||
-            e.key.match(/^[a-zA-Zа-яА-Я]$/) ||
-            e.key === '-'
-        ) {
-            e.preventDefault();
-        }
-
-        handleChangeSum(Number(e.currentTarget.textContent || 0));
-    };
-
-    const handleOnBlur = (e: React.FocusEvent<HTMLDivElement>) => {
-        handleChangeSum(Number(e.currentTarget.textContent?.trim() || 0));
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = parseFloat(e.target.value) || 0;
+        handleChangeSum(value);
     };
 
     return (
         <div className={styles.sumContainer}>
             <h4 className={styles.label}>How much?</h4>
             <div className={styles.sumInputContainer}>
-                <div
+                <input
                     className={styles.sum}
-                    contentEditable
-                    suppressContentEditableWarning={true}
-                    onKeyDown={handleKeyDown}
-                    onBlur={handleOnBlur}
-                >
-                    {sum}
-                </div>
+                    type="number"
+                    value={sum}
+                    onChange={handleInputChange}
+                />
                 <h3>UAH</h3>
             </div>
         </div>

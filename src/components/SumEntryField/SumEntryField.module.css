@@ -22,10 +22,13 @@
 }
 
 .sumInputContainer .sum {
-   outline: none;
-   font-size: 3rem;
-   flex: 7;
-   color: #434341;
+    width: 100%;
+    border: none;
+    background-color: transparent;
+    outline: none;
+    font-size: 4rem;
+    flex: 7;
+    color: #434341;
 }
 
 .sumInputContainer select {

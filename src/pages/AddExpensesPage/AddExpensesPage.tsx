@@ -32,6 +32,12 @@ function ExpensesPage() {
 
     const handleSave = async () => {
         if (isSomeValueNull()) {
+            enqueueSnackbar('Some fields are incorrect', { variant: 'error' });
+            return;
+        }
+
+        if (isSumInvalid()) {
+            enqueueSnackbar('Sum is invalid', { variant: 'error' });
             return;
         }
 
@@ -62,7 +68,13 @@ function ExpensesPage() {
     };
 
     const isSomeValueNull = () => {
-        return Object.values(details).some((value) => value === null);
+        return Object.values(details).some(
+            (value) => value === null || value === -1,
+        );
+    };
+
+    const isSumInvalid = () => {
+        return sum <= 0;
     };
 
     return (
