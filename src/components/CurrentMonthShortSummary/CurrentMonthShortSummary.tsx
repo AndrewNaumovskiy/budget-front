@@ -2,7 +2,6 @@ import { useNavigate } from 'react-router';
 import ShortSummaryRow from '../ShortSummaryRow/ShortSummaryRow';
 import styles from './CurrentMonthShortSummary.module.css';
 import { ROUTES } from '../../constants/routes';
-import useSWR from 'swr';
 import { getFetcher } from '../../api/fetchers';
 import { API_URLs } from '../../constants/API_URLs';
 import { useEffect, useState } from 'react';
@@ -11,19 +10,15 @@ import { SHORT_SUMMARY_ITEMS } from '../../constants/shortSummaryItems';
 import { SummaryItem } from '../../types';
 import SomethingWentWrong from '../SomethingWentWrong/SomethingWentWrong';
 import { enqueueSnackbar } from 'notistack';
+import { useDetailedSummaryForMonth } from '../../hooks/useDetailedSummaryForMonth';
 
 function CurrentMonthShortSummary() {
     const navigate = useNavigate();
 
     const [summaryData, setSummaryData] = useState<SummaryItem[]>([]);
 
-    const { data, isLoading, error } = useSWR(
-        API_URLs.GET_SHORT_SUMMARY,
-        getFetcher,
-        {
-            shouldRetryOnError: false,
-        },
-    );
+    const { income, expense, error, isLoading, savings, unspecified } =
+        useDetailedSummaryForMonth();
 
     const handleNavigateToDetailedSummary = () => {
         navigate(ROUTES.DETAILED_SUMMARY.route);
@@ -44,10 +39,15 @@ function CurrentMonthShortSummary() {
     };
 
     useEffect(() => {
-        if (data) {
-            parseDataToSummaryItems(data.data);
+        if (income && expense && savings && unspecified) {
+            parseDataToSummaryItems({
+                income,
+                expenses: expense,
+                savings,
+                unspecified,
+            });
         }
-    }, [data]);
+    }, [income, expense, savings, unspecified]);
 
     if (isLoading) {
         return null;
