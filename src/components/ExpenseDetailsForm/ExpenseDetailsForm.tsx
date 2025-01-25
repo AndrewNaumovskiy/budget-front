@@ -114,6 +114,13 @@ function ExpenseDetailsForm({
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [categories]);
 
+    useEffect(() => {
+        if (accounts.length > 0) {
+            onDetailsChange('accountId', accounts[0].value);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [accounts]);
+
     return (
         <div className={styles.detailForm}>
             <Picker

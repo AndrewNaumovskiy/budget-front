@@ -6,8 +6,15 @@ import styles from './AddExpensesPage.module.css';
 import { postFetcher } from '../../api/fetchers';
 import { API_URLs } from '../../constants/API_URLs';
 import { AddExpensesPayload } from '../../types/AddExpensesPayload';
+import useSWRMutation from 'swr/mutation';
+import { enqueueSnackbar } from 'notistack';
 
 function ExpensesPage() {
+    const { trigger } = useSWRMutation(
+        API_URLs.ADD_EXPENSES,
+        (url, { arg }: { arg: AddExpensesPayload }) => postFetcher(url, arg),
+    );
+
     const [sum, setSum] = useState(0);
     const [details, setDetails] = useState({
         subCategoryId: -1,
@@ -23,7 +30,7 @@ function ExpensesPage() {
         setSum(value);
     };
 
-    const handleSave = () => {
+    const handleSave = async () => {
         if (isSomeValueNull()) {
             return;
         }
@@ -36,11 +43,22 @@ function ExpensesPage() {
             description: details.description,
         };
 
-        addExpenseRequest(requestData);
+        try {
+            await trigger(requestData);
+            alert('Expense added successfully!');
+            enqueueSnackbar('Expense was added!', { variant: 'success' });
+            clearForm();
+        } catch {
+            enqueueSnackbar('Failed to add expense', { variant: 'error' });
+        }
     };
 
-    const addExpenseRequest = async (data: AddExpensesPayload) => {
-        await postFetcher(API_URLs.ADD_EXPENSES, data);
+    const clearForm = () => {
+        setSum(0);
+        setDetails({
+            ...details,
+            description: '',
+        });
     };
 
     const isSomeValueNull = () => {
