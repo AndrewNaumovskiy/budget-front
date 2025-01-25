@@ -7,4 +7,5 @@ export const API_URLs = {
     GET_ACCOUNTS: 'balance/accounts',
     GET_INCOME_TYPES: 'income/categories',
     ADD_INCOME: 'income',
+    GET_EXPENSES_FOR_MONTH: 'expenses',
 }

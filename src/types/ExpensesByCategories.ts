@@ -1,4 +1,7 @@
 
 export interface ExpensesByCategories {
-    [key: string]: number;
+    [categoryName: string]: {
+        amount: number;
+        percentage: number;
+    }
 }   

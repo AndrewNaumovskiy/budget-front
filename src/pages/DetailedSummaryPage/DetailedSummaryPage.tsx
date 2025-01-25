@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useState } from 'react';
 import SummaryBigDoughnutChart from '../../components/SummaryBigDoughnutChart/SummaryBigDoughnutChart';
 import styles from './DetailedSummaryPage.module.css';
-import { ExpensesByCategories } from '../../types';
 import SmallCategoryDoughnutChart from '../../components/SmallCategoryDoughnutChart/SmallCategoryDoughnutChart';
 import MonthPicker from '../../components/MonthPicker/MonthPicker';
+import { useExpensesByCategories } from '../../hooks/useExpensesByCategories';
 
 const CATEGORIES_CHART_COLORS: { [key: string]: string } = {
     0: '#e33a9c',
@@ -23,48 +23,26 @@ const CATEGORIES_CHART_COLORS: { [key: string]: string } = {
     14: '#0065a2',
     15: '#cff800',
     16: '#ff6c00',
+    17: '#ff00ff',
+    18: '#00ff00',
+    19: '#0000ff',
+    20: '#ff0000',
+    21: '#00ffff',
+    22: '#ffff00',
 };
 
 function DetailedSummaryPage() {
     const [selectedMonth, setSelectedMonth] = useState<string>('');
     const [min, setMin] = useState<string>('');
 
-    const [expensesByCategories, setExpensesByCategories] =
-        useState<ExpensesByCategories>({});
+    const currentMonth = useMemo(() => new Date().toISOString(), []);
 
-    const expensesSumOverall = 2000;
-
-    const expensesSumByCategory: ExpensesByCategories = useMemo(
-        () => ({
-            Food: 500,
-            Transportation: 200,
-            Shopping: 300,
-            Bills: 500,
-            Others: 500,
-        }),
-        [],
-    );
+    const { expensesByCategories, overallSum } =
+        useExpensesByCategories(currentMonth);
 
     const handleMonthChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSelectedMonth(event.target.value);
     };
-
-    useEffect(() => {
-        // Fetch expenses by categories
-
-        //Calculate percentage of expenses by category
-
-        const percentages: ExpensesByCategories = {};
-        Object.keys(expensesSumByCategory).forEach((category) => {
-            const sum = expensesSumByCategory[category];
-
-            const percentage = (sum / expensesSumOverall) * 100;
-
-            percentages[category] = percentage;
-        });
-
-        setExpensesByCategories(percentages);
-    }, [expensesSumOverall, expensesSumByCategory]);
 
     useEffect(() => {
         const now = new Date();
@@ -93,10 +71,12 @@ function DetailedSummaryPage() {
                     return (
                         <SmallCategoryDoughnutChart
                             category={category}
-                            percentage={expensesByCategories[category]}
-                            sum={expensesSumByCategory[category]}
+                            percentage={
+                                expensesByCategories[category].percentage
+                            }
+                            sum={expensesByCategories[category].amount}
                             key={category}
-                            overallSum={expensesSumOverall}
+                            overallSum={overallSum}
                             color={CATEGORIES_CHART_COLORS[index]}
                         />
                     );
