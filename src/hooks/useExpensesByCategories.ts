@@ -6,76 +6,69 @@ import { useEffect, useMemo, useState } from "react";
 import { ExpenseResponse } from "../types/ExpenseResponse";
 import { ExpensesByCategories } from "../types";
 
+const processExpensesData = (expenses: ExpenseResponse[]): ExpensesByCategories => {
+    // Group expenses by category
+    const groupedData = expenses.reduce((acc: ExpensesByCategories, expense) => {
+        const { categoryName, amount } = expense;
+
+        if (!acc[categoryName]) {
+            acc[categoryName] = { amount: 0, percentage: 0 };
+        }
+
+        acc[categoryName].amount += amount;
+
+        return acc;
+    }, {});
+
+    // Calculate percentages
+    const totalAmount = Object.values(groupedData).reduce((acc, curr) => acc + curr.amount, 0);
+
+    const processedData = Object.entries(groupedData).reduce((acc, [category, data]) => {
+        acc[category] = {
+            amount: Math.round(data.amount * 100) / 100,
+            percentage: Math.round((data.amount / totalAmount) * 1000) / 10
+        };
+        return acc;
+    }, {} as ExpensesByCategories);
+
+    // Sort by amount
+    return Object.fromEntries(
+        Object.entries(processedData).sort((a, b) => b[1].amount - a[1].amount)
+    );
+}
 
 export const useExpensesByCategories = (initialMonth: string) => {
     const { expensesByCategories, setExpensesByCategories } = useExpensesByCategoriesStore();
-
     const [overallSum, setOverallSum] = useState<number>(0);
     const [currentMonth, setCurrentMonth] = useState<string>(initialMonth);
 
-    const url = useMemo(() => {
-        return `${API_URLs.GET_EXPENSES_FOR_MONTH}?from=${currentMonth}&to=${currentMonth}`;
-    }, [currentMonth]);
+    const url = useMemo(() =>
+        `${API_URLs.GET_EXPENSES_FOR_MONTH}?from=${currentMonth}&to=${currentMonth}`,
+        [currentMonth]
+    );
 
     const { data, isLoading, error } = useSWR(url, getFetcher);
 
-    const handleChangeMonth = async (month: string) => {
+    const handleChangeMonth = (month: string) => {
         setCurrentMonth(month);
     }
 
-    const groupByCategories = (expenses: ExpenseResponse[]) => {
-        const resultObj: ExpensesByCategories = {};
-
-        expenses.forEach((expense) => {
-            if (resultObj[expense.categoryName]) {
-                resultObj[expense.categoryName].amount += expense.amount;
-            } else {
-                resultObj[expense.categoryName] = { amount: 0, percentage: 0 };
-                resultObj[expense.categoryName].amount = expense.amount;
-            }
-        });
-
-        return resultObj;
-    }
-
-    const addPercentages = (groupedData: ExpensesByCategories) => {
-        const totalAmount = Object.values(groupedData).reduce((acc, curr) => acc + curr.amount, 0);
-
-        for (const key in groupedData) {
-            groupedData[key].percentage = (groupedData[key].amount / totalAmount) * 100;
-        }
-
-        return groupedData;
-    }
-
-    const roundData = (groupedData: ExpensesByCategories) => {
-        for (const key in groupedData) {
-            groupedData[key].amount = Math.round(groupedData[key].amount * 100) / 100;
-            groupedData[key].percentage = Math.round(groupedData[key].percentage * 10) / 10;
-        }
-
-        return groupedData;
-    }
-
-    const sortByAmount = (groupedData: ExpensesByCategories) => {
-        return Object.fromEntries(
-            Object.entries(groupedData).sort((a, b) => b[1].amount - a[1].amount)
-        );
-    }
-
     useEffect(() => {
-        if (data) {
-            const groupedData = groupByCategories(data.data.expenses);
-            const dataWithPercentages = addPercentages(groupedData);
-            const roundedData = roundData(dataWithPercentages);
-            const sortedData = sortByAmount(roundedData);
+        if (data?.data?.expenses) {
+            const processedData = processExpensesData(data.data.expenses);
 
-            const wholeSum = Object.values(sortedData).reduce((acc, curr) => acc + curr.amount, 0);
+            const wholeSum = Object.values(processedData).reduce((acc, curr) => acc + curr.amount, 0);
+
             setOverallSum(wholeSum);
-
-            setExpensesByCategories(sortedData);
+            setExpensesByCategories(processedData);
         }
     }, [data, setExpensesByCategories]);
 
-    return { expensesByCategories, overallSum, isLoading, error, handleChangeMonth };
+    return {
+        expensesByCategories,
+        overallSum,
+        isLoading,
+        error,
+        handleChangeMonth
+    };
 }
