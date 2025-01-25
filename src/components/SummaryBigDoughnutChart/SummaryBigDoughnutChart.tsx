@@ -5,9 +5,19 @@ import { useDetailedSummaryForMonth } from '../../hooks/useDetailedSummaryForMon
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-function SummaryBigDoughnutChart() {
+interface SummaryBigDoughnutChartProps {
+    date: string;
+}
+
+function SummaryBigDoughnutChart({ date }: SummaryBigDoughnutChartProps) {
     const { income, expense, savings, unspecified } =
-        useDetailedSummaryForMonth();
+        useDetailedSummaryForMonth(...parseMonthToNumber(date));
+
+    function parseMonthToNumber(date: string) {
+        const [year, month] = date.split('-');
+
+        return [parseInt(month), parseInt(year)];
+    }
 
     const data = {
         labels: ['Expenses', 'Savings', 'Unspecified'],

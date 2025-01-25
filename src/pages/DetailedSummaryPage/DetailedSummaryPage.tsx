@@ -32,7 +32,7 @@ const CATEGORIES_CHART_COLORS: { [key: string]: string } = {
 };
 
 function DetailedSummaryPage() {
-    const [selectedMonth, setSelectedMonth] = useState<string>('');
+    const [selectedMonth, setSelectedMonth] = useState<string>('-');
     const [min, setMin] = useState<string>('');
 
     const currentMonth = useMemo(() => new Date().toISOString(), []);
@@ -41,8 +41,9 @@ function DetailedSummaryPage() {
         useExpensesByCategories(currentMonth);
 
     const handleMonthChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setSelectedMonth(event.target.value);
-        handleChangeMonth(event.target.value);
+        const newMonth = event.target.value;
+        setSelectedMonth(newMonth);
+        handleChangeMonth(newMonth);
     };
 
     useEffect(() => {
@@ -66,7 +67,7 @@ function DetailedSummaryPage() {
                 value={selectedMonth}
                 onChange={handleMonthChange}
             />
-            <SummaryBigDoughnutChart />
+            <SummaryBigDoughnutChart date={selectedMonth} />
             <div className={styles.categoriesSummaryCharts}>
                 {Object.keys(expensesByCategories).map((category, index) => {
                     return (
