@@ -1,47 +1,44 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Picker from '../Picker/Picker';
-import { Option } from '../../types';
 import styles from './IncomeDetailsForm.module.css';
 import TextareaField from '../TextareaField/TextareaField';
+import { useAccounts } from '../../hooks/useAccounts';
+interface IncomeDetailsFormProps {
+    onDetailsChange: (field: string, value: string | number) => void;
+    details: {
+        incomeTypeId: number;
+        accountId: number;
+        description: string;
+    };
+}
 
-function IncomeDetailsForm() {
+function IncomeDetailsForm({
+    onDetailsChange,
+    details,
+}: IncomeDetailsFormProps) {
+    const { accounts } = useAccounts();
+
     const [desc, setDesc] = useState('');
-    const [typesOfIncome, setTypesOfIncome] = useState<Option[]>([]);
-
-    const [accounts, setAccounts] = useState<Option[]>([]);
 
     const handleChangeDesc = (value: string) => {
         setDesc(value);
     };
 
-    useEffect(() => {
-        const fetchedTypesOfIncome: Option[] = [
-            { label: 'Salary', value: 'salary' },
-            { label: 'One-time payment', value: 'one-time-payment' },
-            { label: 'Obligations', value: 'obligations' },
-        ];
-
-        setTypesOfIncome(fetchedTypesOfIncome);
-
-        const fetchedAccounts: Option[] = [
-            { label: 'PrivatBank', value: 'privat_bank' },
-            { label: 'Monobank', value: 'monobank' },
-        ];
-
-        setAccounts(fetchedAccounts);
-    }, []);
-
     return (
         <div className={styles.detailForm}>
-            <Picker
+            {/* <Picker
                 data={typesOfIncome}
+                value={details.incomeTypeId}
                 label="Type of income"
                 onChange={() => {}}
-            />
+            /> */}
             <Picker
-                data={accounts}
                 label="Select account"
-                onChange={() => {}}
+                data={accounts}
+                value={details.accountId}
+                onChange={(value) =>
+                    onDetailsChange('accountId', Number(value))
+                }
             />
             <TextareaField
                 label="Description"

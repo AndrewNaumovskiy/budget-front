@@ -3,14 +3,9 @@ import styles from './ExpenseDetailsForm.module.css';
 import { Option } from '../../types';
 import Picker from '../Picker/Picker';
 import TextareaField from '../TextareaField/TextareaField';
-import { useCategories } from '../../hooks/useCategories';
-import useSWR from 'swr';
-import { API_URLs } from '../../constants/API_URLs';
-import { getFetcher } from '../../api/fetchers';
+import { useExpenseCategories } from '../../hooks/useExpenseCategories';
 import useAddExpensesStore from '../../state/stores/addExpensesStore';
-import { CategoryWithSubCategories } from '../../types/CategoryWithSubCategories';
 import { useSubCategories } from '../../hooks/useSubCategories';
-import { AccountResponse } from '../../types/AccountResponse';
 import { useAccounts } from '../../hooks/useAccounts';
 
 interface ExpenseDetailsFormProps {
@@ -21,30 +16,19 @@ interface ExpenseDetailsFormProps {
         description: string;
     };
 }
+
 function ExpenseDetailsForm({
     details,
     onDetailsChange,
 }: ExpenseDetailsFormProps) {
     const [selectedCategory, setSelectedCategory] = useState<number>(-1);
 
-    const { data } = useSWR(
-        API_URLs.GET_CATEGORIES_AND_SUB_CATEGORIES,
-        getFetcher,
-    );
+    const { setSubCategories, categoriesWithSubcategories } =
+        useAddExpensesStore();
 
-    const { data: fetchedAccounts } = useSWR(API_URLs.GET_ACCOUNTS, getFetcher);
-
-    const {
-        setCategoriesWithSubCategories,
-        setCategories,
-        setAccounts,
-        setSubCategories,
-        categoriesWithSubcategories,
-    } = useAddExpensesStore();
-
-    const categories = useCategories();
+    const { categories } = useExpenseCategories();
     const subCategories = useSubCategories();
-    const accounts = useAccounts();
+    const { accounts } = useAccounts();
 
     const handleCategoryChange = (value: string) => {
         setSelectedCategory(+value);
@@ -76,36 +60,6 @@ function ExpenseDetailsForm({
         setSubCategories(updatedSubCategories);
         onDetailsChange('subCategoryId', updatedSubCategories[0].value);
     };
-
-    useEffect(() => {
-        if (data) {
-            setCategoriesWithSubCategories(data.data.categories);
-
-            const fetchedCategories: Option[] = data.data.categories.map(
-                (category: CategoryWithSubCategories) => ({
-                    label: category.name,
-                    value: category.id,
-                }),
-            );
-
-            setCategories(fetchedCategories);
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [data]);
-
-    useEffect(() => {
-        if (fetchedAccounts) {
-            const updatedAccounts: Option[] = fetchedAccounts.data.accounts.map(
-                (account: AccountResponse) => ({
-                    label: account.name,
-                    value: account.id,
-                }),
-            );
-
-            setAccounts(updatedAccounts);
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [fetchedAccounts]);
 
     useEffect(() => {
         if (categories.length > 0) {
