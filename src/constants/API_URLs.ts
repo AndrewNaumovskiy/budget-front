@@ -5,4 +5,6 @@ export const API_URLs = {
     GET_CATEGORIES_AND_SUB_CATEGORIES: 'expenses/categories',
     ADD_EXPENSES: 'expenses',
     GET_ACCOUNTS: 'balance/accounts',
+    GET_INCOME_TYPES: 'income/categories',
+    ADD_INCOME: 'income',
 }

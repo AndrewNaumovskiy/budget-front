@@ -8,6 +8,7 @@ import { API_URLs } from '../../constants/API_URLs';
 import { AddExpensesPayload } from '../../types/AddExpensesPayload';
 import useSWRMutation from 'swr/mutation';
 import { enqueueSnackbar } from 'notistack';
+import { isSumInvalid } from '../../utils/isSumInvalid';
 
 function ExpensesPage() {
     const { trigger } = useSWRMutation(
@@ -36,7 +37,7 @@ function ExpensesPage() {
             return;
         }
 
-        if (isSumInvalid()) {
+        if (isSumInvalid(sum)) {
             enqueueSnackbar('Sum is invalid', { variant: 'error' });
             return;
         }
@@ -71,10 +72,6 @@ function ExpensesPage() {
         return Object.values(details).some(
             (value) => value === null || value === -1,
         );
-    };
-
-    const isSumInvalid = () => {
-        return sum <= 0;
     };
 
     return (

@@ -3,6 +3,7 @@ import Picker from '../Picker/Picker';
 import styles from './IncomeDetailsForm.module.css';
 import TextareaField from '../TextareaField/TextareaField';
 import { useAccounts } from '../../hooks/useAccounts';
+import { useIncomeTypes } from '../../hooks/useIncomeTypes';
 interface IncomeDetailsFormProps {
     onDetailsChange: (field: string, value: string | number) => void;
     details: {
@@ -17,6 +18,7 @@ function IncomeDetailsForm({
     details,
 }: IncomeDetailsFormProps) {
     const { accounts } = useAccounts();
+    const { incomeTypes } = useIncomeTypes();
 
     const [desc, setDesc] = useState('');
 
@@ -26,19 +28,17 @@ function IncomeDetailsForm({
 
     return (
         <div className={styles.detailForm}>
-            {/* <Picker
-                data={typesOfIncome}
+            <Picker
+                data={incomeTypes}
                 value={details.incomeTypeId}
                 label="Type of income"
-                onChange={() => {}}
-            /> */}
+                onChange={(value) => onDetailsChange('incomeTypeId', value)}
+            />
             <Picker
                 label="Select account"
                 data={accounts}
                 value={details.accountId}
-                onChange={(value) =>
-                    onDetailsChange('accountId', Number(value))
-                }
+                onChange={(value) => onDetailsChange('accountId', value)}
             />
             <TextareaField
                 label="Description"
