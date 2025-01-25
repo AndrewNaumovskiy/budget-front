@@ -9,19 +9,18 @@ import { ExpensesByCategories } from "../types";
 
 export const useExpensesByCategories = (initialMonth: string) => {
     const { expensesByCategories, setExpensesByCategories } = useExpensesByCategoriesStore();
+
     const [overallSum, setOverallSum] = useState<number>(0);
+    const [currentMonth, setCurrentMonth] = useState<string>(initialMonth);
 
     const url = useMemo(() => {
-        return `${API_URLs.GET_EXPENSES_FOR_MONTH}?from=${initialMonth}&to=${initialMonth}`;
-    }, [initialMonth]);
+        return `${API_URLs.GET_EXPENSES_FOR_MONTH}?from=${currentMonth}&to=${currentMonth}`;
+    }, [currentMonth]);
 
-    const { data, isLoading, error, mutate } = useSWR(url, getFetcher);
+    const { data, isLoading, error } = useSWR(url, getFetcher);
 
     const handleChangeMonth = async (month: string) => {
-        const newUrl = `${API_URLs.GET_EXPENSES_FOR_MONTH}?from=${month}-01&to=${month}-31`;
-        if (url !== newUrl) {
-            await mutate([newUrl, getFetcher(newUrl)]);
-        }
+        setCurrentMonth(month);
     }
 
     const groupByCategories = (expenses: ExpenseResponse[]) => {

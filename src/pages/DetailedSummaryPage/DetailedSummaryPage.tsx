@@ -37,11 +37,12 @@ function DetailedSummaryPage() {
 
     const currentMonth = useMemo(() => new Date().toISOString(), []);
 
-    const { expensesByCategories, overallSum } =
+    const { expensesByCategories, overallSum, handleChangeMonth } =
         useExpensesByCategories(currentMonth);
 
     const handleMonthChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSelectedMonth(event.target.value);
+        handleChangeMonth(event.target.value);
     };
 
     useEffect(() => {
