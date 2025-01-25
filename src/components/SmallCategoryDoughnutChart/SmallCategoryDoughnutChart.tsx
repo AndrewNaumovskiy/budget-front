@@ -44,7 +44,7 @@ function SmallCategoryDoughnutChart({
             <div className={styles.chartTitle}>
                 <h2>{percentage}%</h2>
             </div>
-            <Doughnut data={data} options={options} />
+            <Doughnut data={data} options={options} style={{ zIndex: '+1' }} />
             <p>{category}</p>
         </div>
     );
