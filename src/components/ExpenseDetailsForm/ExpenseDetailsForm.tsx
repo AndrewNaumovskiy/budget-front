@@ -10,14 +10,14 @@ import { getFetcher } from '../../api/fetchers';
 import useAddExpensesStore from '../../state/stores/addExpensesStore';
 import { CategoryWithSubCategories } from '../../types/CategoryWithSubCategories';
 import { useSubCategories } from '../../hooks/useSubCategories';
+import { AccountResponse } from '../../types/AccountResponse';
+import { useAccounts } from '../../hooks/useAccounts';
 
 interface ExpenseDetailsFormProps {
-    onDetailsChange: (field: string, value: string) => void;
+    onDetailsChange: (field: string, value: string | number) => void;
     details: {
-        category: string;
-        subCategory: string;
-        paymentMethod: string;
-        account: string;
+        subCategoryId: number;
+        accountId: number;
         description: string;
     };
 }
@@ -25,32 +25,34 @@ function ExpenseDetailsForm({
     details,
     onDetailsChange,
 }: ExpenseDetailsFormProps) {
+    const [selectedCategory, setSelectedCategory] = useState<number>(-1);
+
     const { data } = useSWR(
         API_URLs.GET_CATEGORIES_AND_SUB_CATEGORIES,
         getFetcher,
     );
 
+    const { data: fetchedAccounts } = useSWR(API_URLs.GET_ACCOUNTS, getFetcher);
+
     const {
         setCategoriesWithSubCategories,
         setCategories,
+        setAccounts,
         setSubCategories,
         categoriesWithSubcategories,
     } = useAddExpensesStore();
 
     const categories = useCategories();
     const subCategories = useSubCategories();
-
-    const [paymentMethods, setPaymentMethods] = useState<Option[]>([]);
-
-    const [accounts, setAccounts] = useState<Option[]>([]);
+    const accounts = useAccounts();
 
     const handleCategoryChange = (value: string) => {
-        onDetailsChange('category', value);
+        setSelectedCategory(+value);
 
-        setAppropriateSubCategories(value);
+        setAppropriateSubCategories(+value);
     };
 
-    const setAppropriateSubCategories = (value: string) => {
+    const setAppropriateSubCategories = (value: number) => {
         const category = categories.find(
             (category) => category.value === value,
         );
@@ -59,7 +61,7 @@ function ExpenseDetailsForm({
 
         const appropriateSubCategories = categoriesWithSubcategories.find(
             (categoryWithSubCategories) =>
-                String(categoryWithSubCategories.id) === category.value,
+                categoryWithSubCategories.id === category.value,
         )?.subCategories;
 
         if (!appropriateSubCategories) return;
@@ -67,12 +69,12 @@ function ExpenseDetailsForm({
         const updatedSubCategories: Option[] = appropriateSubCategories.map(
             (subCategory) => ({
                 label: subCategory.name,
-                value: String(subCategory.id),
+                value: subCategory.id,
             }),
         );
 
         setSubCategories(updatedSubCategories);
-        onDetailsChange('subCategory', updatedSubCategories[0].value);
+        onDetailsChange('subCategoryId', updatedSubCategories[0].value);
     };
 
     useEffect(() => {
@@ -82,7 +84,7 @@ function ExpenseDetailsForm({
             const fetchedCategories: Option[] = data.data.categories.map(
                 (category: CategoryWithSubCategories) => ({
                     label: category.name,
-                    value: String(category.id),
+                    value: category.id,
                 }),
             );
 
@@ -92,60 +94,49 @@ function ExpenseDetailsForm({
     }, [data]);
 
     useEffect(() => {
+        if (fetchedAccounts) {
+            const updatedAccounts: Option[] = fetchedAccounts.data.accounts.map(
+                (account: AccountResponse) => ({
+                    label: account.name,
+                    value: account.id,
+                }),
+            );
+
+            setAccounts(updatedAccounts);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [fetchedAccounts]);
+
+    useEffect(() => {
         if (categories.length > 0) {
-            handleCategoryChange(categories[0].value);
+            handleCategoryChange(String(categories[0].value));
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [categories]);
-
-    useEffect(() => {
-        const fetchedPaymentMethods: Option[] = [
-            { label: 'Cash', value: 'cash' },
-            { label: 'Credit card', value: 'credit_card' },
-        ];
-
-        setPaymentMethods(fetchedPaymentMethods);
-    }, []);
-
-    useEffect(() => {
-        if (details.paymentMethod === 'credit_card') {
-            const fetchedAccounts: Option[] = [
-                { label: 'PrivatBank', value: 'privat_bank' },
-                { label: 'Monobank', value: 'monobank' },
-            ];
-
-            setAccounts(fetchedAccounts);
-        }
-    }, [details.paymentMethod]);
 
     return (
         <div className={styles.detailForm}>
             <Picker
                 label="Select category"
                 data={categories}
-                value={details.category}
+                value={selectedCategory}
                 onChange={handleCategoryChange}
             />
             <Picker
                 label="Select subcategory"
                 data={subCategories}
-                value={details.subCategory}
-                onChange={(value) => onDetailsChange('subCategory', value)}
+                value={details.subCategoryId}
+                onChange={(value) => onDetailsChange('subCategoryId', value)}
             />
+
             <Picker
                 label="Select payment method"
-                data={paymentMethods}
-                value={details.paymentMethod}
-                onChange={(value) => onDetailsChange('paymentMethod', value)}
+                data={accounts}
+                value={details.accountId}
+                onChange={(value) =>
+                    onDetailsChange('accountId', Number(value))
+                }
             />
-            {details.paymentMethod === 'credit_card' ? (
-                <Picker
-                    label="Select account"
-                    data={accounts}
-                    value={details.account}
-                    onChange={(value) => onDetailsChange('account', value)}
-                />
-            ) : null}
             <TextareaField
                 label="Description"
                 value={details.description}

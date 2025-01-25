@@ -3,6 +3,5 @@ export interface AddExpensesPayload {
     accountId: number;
     amount: number;
     categoryId: number;
-    subCategoryId: number;
     description: string;
 }

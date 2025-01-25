@@ -10,14 +10,12 @@ import { AddExpensesPayload } from '../../types/AddExpensesPayload';
 function ExpensesPage() {
     const [sum, setSum] = useState(0);
     const [details, setDetails] = useState({
-        category: '',
-        subCategory: '',
-        paymentMethod: '',
-        account: '',
+        subCategoryId: -1,
+        accountId: -1,
         description: '',
     });
 
-    const handleDetailsChange = (field: string, value: string) => {
+    const handleDetailsChange = (field: string, value: string | number) => {
         setDetails((prev) => ({ ...prev, [field]: value }));
     };
 
@@ -32,10 +30,9 @@ function ExpensesPage() {
 
         const requestData: AddExpensesPayload = {
             date: new Date().toISOString(),
-            accountId: Number(details.account),
+            accountId: details.accountId,
             amount: sum,
-            categoryId: Number(details.category),
-            subCategoryId: Number(details.subCategory),
+            categoryId: details.subCategoryId,
             description: details.description,
         };
 

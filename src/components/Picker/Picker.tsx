@@ -5,7 +5,7 @@ interface PickerProps {
     data: Option[];
     onChange: (value: string) => void;
     label?: string;
-    value: string | null;
+    value: string | number | null;
 }
 
 function Picker({ data, onChange, label, value }: PickerProps) {

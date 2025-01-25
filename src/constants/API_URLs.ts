@@ -4,4 +4,5 @@ export const API_URLs = {
     GET_RECENT_TRANSACTIONS: 'balance/recentTransactions',
     GET_CATEGORIES_AND_SUB_CATEGORIES: 'expenses/categories',
     ADD_EXPENSES: 'expenses',
+    GET_ACCOUNTS: 'balance/accounts',
 }
