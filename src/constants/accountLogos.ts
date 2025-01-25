@@ -7,6 +7,6 @@ import CashLogo from '../assets/accounts_logos/cash.png';
 export const ACCOUNT_LOGOS: { [key in Account]: string } = {
     [Account.Monobank]: MonobankLogo,
     [Account.PrivatBank]: PrivatbankLogo,
-    [Account.Ukrsibbank]: UkrsibbankLogo,
+    [Account.UkrSib]: UkrsibbankLogo,
     [Account.None]: CashLogo,
 }
