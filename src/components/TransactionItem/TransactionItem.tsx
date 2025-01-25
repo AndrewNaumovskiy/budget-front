@@ -6,10 +6,17 @@ import { useNavigate } from 'react-router';
 import { ROUTES } from '../../constants/routes';
 import { ACCOUNT_LOGOS } from '../../constants/accountLogos';
 import { truncateString } from '../../utils/truncateString';
+import React from 'react';
 
 interface TransactionItemProps {
     transaction: Transaction;
 }
+
+const TRANSACTION_ICONS = {
+    0: <FaArrowDown size={20} color="green" />,
+    1: <FaArrowUp size={20} color="red" />,
+    2: <React.Fragment />,
+};
 
 function TransactionItem({ transaction }: TransactionItemProps) {
     const navigate = useNavigate();
@@ -23,11 +30,7 @@ function TransactionItem({ transaction }: TransactionItemProps) {
             className={styles.transactionItem}
             onClick={handleNavigateToTransactionDetails}
         >
-            {transaction.type === 'income' ? (
-                <FaArrowDown color="#007a57" size={20} />
-            ) : (
-                <FaArrowUp color="#c70039" size={20} />
-            )}
+            {TRANSACTION_ICONS[transaction.type]}
             <div className={styles.centralContainer}>
                 <div className={styles.amount}>{transaction.amount}</div>
                 <div className={styles.time}>{transaction.date}</div>
