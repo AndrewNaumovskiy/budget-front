@@ -1,0 +1,27 @@
+.datePickerContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    justify-content: start;
+}
+
+.datePicker {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #7d7e77;
+    border-radius: 10px;
+    text-align: center;
+    background-color: transparent;
+    outline: none;
+    font-family: 'Roboto', sans-serif;
+    color: #434341;
+    font-size: larger;
+}
+
+.label {
+    font-family: 'Roboto', sans-serif;
+    color: #434341;
+    font-size: 14px;
+    font-weight: 500;
+}

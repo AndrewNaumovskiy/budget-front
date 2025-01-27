@@ -10,6 +10,7 @@ import './App.css';
 import DetailedSummaryPage from './pages/DetailedSummaryPage/DetailedSummaryPage';
 import AddEntryPage from './pages/AddEntryPage/AddEntryPage';
 import AddIncomePage from './pages/AddIncomePage/AddIncomePage';
+import StatisticsPage from './pages/StatisticsPage/StatisticsPage';
 
 function App() {
     return (
@@ -56,7 +57,7 @@ function App() {
                     />
                     <Route
                         path={ROUTES.STATISTICS.route}
-                        element={<div>Statistics Page</div>}
+                        element={<StatisticsPage />}
                     />
                     <Route
                         path={ROUTES.SETTINGS.route}
