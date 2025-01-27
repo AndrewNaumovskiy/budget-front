@@ -1,5 +1,6 @@
 import { Transaction } from '../../types/Transaction';
-import StatisticsListItem from './StatisticsListItem/StatisticsListItem';
+import styles from './StatisticsList.module.css';
+import TransactionItem from '../TransactionItem/TransactionItem';
 
 interface StatisticsListProps {
     data: Transaction[];
@@ -7,9 +8,9 @@ interface StatisticsListProps {
 
 function StatisticsList({ data }: StatisticsListProps) {
     return (
-        <div>
+        <div className={styles.statisticsList}>
             {data.map((item) => {
-                return <StatisticsListItem key={item.id} item={item} />;
+                return <TransactionItem key={item.id} transaction={item} />;
             })}
         </div>
     );

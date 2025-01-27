@@ -3,15 +3,26 @@ import styles from './StatisticsFilters.module.css';
 import DateRangePickerComponent from '../DateRangePicker/DateRangePicker';
 import Button from '../Button/Button';
 import { useStatisticsData } from '../../hooks/useStatisticsData';
+import { Filters } from '../../types/Filters';
 
 const transactionTypes = [
     { label: 'Income', value: 'income' },
     { label: 'Expenses', value: 'expenses' },
 ];
 
-function StatisticsFilters() {
-    const { filters, onFilterChanged, applyFilters } = useStatisticsData();
-
+interface StatisticsFiltersProps {
+    filters: ReturnType<typeof useStatisticsData>['filters'];
+    onFilterChanged: (
+        key: keyof Filters,
+        value: Filters[keyof Filters],
+    ) => void;
+    applyFilters: () => void;
+}
+function StatisticsFilters({
+    filters,
+    onFilterChanged,
+    applyFilters,
+}: StatisticsFiltersProps) {
     return (
         <div className={styles.statisticsFilters}>
             <DateRangePickerComponent

@@ -6,20 +6,29 @@ import { useStatisticsData } from '../../hooks/useStatisticsData';
 import styles from './StatisticsPage.module.css';
 
 function StatisticsPage() {
-    const { statisticsData, error, isLoading } = useStatisticsData();
-
-    if (isLoading) {
-        return <Loader />;
-    }
-
-    if (error) {
-        return <SomethingWentWrong title="Failed to get statistics" />;
-    }
+    const {
+        statisticsData,
+        error,
+        isLoading,
+        applyFilters,
+        filters,
+        onFilterChanged,
+    } = useStatisticsData();
 
     return (
         <div className={styles.statisticsPage}>
-            <StatisticsFilters />
-            <StatisticsList data={statisticsData} />
+            <StatisticsFilters
+                filters={filters}
+                applyFilters={applyFilters}
+                onFilterChanged={onFilterChanged}
+            />
+            {isLoading ? (
+                <Loader />
+            ) : error ? (
+                <SomethingWentWrong title="Failed to get statistics" />
+            ) : (
+                <StatisticsList data={statisticsData} />
+            )}{' '}
         </div>
     );
 }

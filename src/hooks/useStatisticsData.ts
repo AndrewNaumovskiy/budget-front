@@ -5,7 +5,6 @@ import { getFetcher } from "../api/fetchers";
 import { Filters } from "../types/Filters";
 import { Transaction } from "../types/Transaction";
 
-
 export const useStatisticsData = () => {
     const [statisticsData, setStatisticsData] = useState<Transaction[]>([]);
 
@@ -37,6 +36,7 @@ export const useStatisticsData = () => {
             const array = filters.transactionType === 'income' ? data.data.transactions : data.data.expenses;
             const updatedData = array.map((transaction: Transaction) => ({
                 ...transaction,
+                date: transaction.date.slice(0, 10),
             }));
 
             setStatisticsData(updatedData);
