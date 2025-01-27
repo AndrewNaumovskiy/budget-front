@@ -10,10 +10,7 @@ function SomethingWentWrong({ title, tryAgain }: SomethingWentWrongProps) {
     return (
         <div className={styles.errorContainer}>
             <h3>{title ? title : 'Something went wrong'}</h3>
-            <Button
-                onClick={tryAgain ? tryAgain : () => {}}
-                label="Try again"
-            />
+            {tryAgain ? <Button onClick={tryAgain} label="Try again" /> : null}
         </div>
     );
 }
