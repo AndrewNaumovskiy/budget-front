@@ -4,11 +4,7 @@ import DateRangePickerComponent from '../DateRangePicker/DateRangePicker';
 import Button from '../Button/Button';
 import { useStatisticsData } from '../../hooks/useStatisticsData';
 import { Filters } from '../../types/Filters';
-
-const transactionTypes = [
-    { label: 'Income', value: 'income' },
-    { label: 'Expenses', value: 'expenses' },
-];
+import { TRANSACTION_TYPES } from '../../constants/transactionTypes';
 
 interface StatisticsFiltersProps {
     filters: ReturnType<typeof useStatisticsData>['filters'];
@@ -35,7 +31,7 @@ function StatisticsFilters({
             />
             <Picker
                 label={'Transaction type'}
-                data={transactionTypes}
+                data={TRANSACTION_TYPES}
                 value={filters.transactionType}
                 onChange={(value) => onFilterChanged('transactionType', value)}
             />
