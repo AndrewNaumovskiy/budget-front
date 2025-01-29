@@ -8,7 +8,7 @@ import { CategoryWithSubCategories } from "../types/CategoryWithSubCategories";
 
 export const useExpenseCategories = () => {
     const { data, error, isLoading } = useSWR(API_URLs.GET_CATEGORIES_AND_SUB_CATEGORIES, getFetcher);
-    const { setCategoriesWithSubCategories, setCategories, categories } = useAddExpensesStore();
+    const { setCategoriesWithSubCategories, setCategories, categories, categoriesWithSubcategories } = useAddExpensesStore();
 
     useEffect(() => {
         if (data) {
@@ -24,5 +24,5 @@ export const useExpenseCategories = () => {
         }
     }, [data, setCategoriesWithSubCategories, setCategories]);
 
-    return { categories, isLoading, error };
+    return { categories, categoriesWithSubcategories, isLoading, error };
 }

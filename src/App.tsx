@@ -11,6 +11,7 @@ import DetailedSummaryPage from './pages/DetailedSummaryPage/DetailedSummaryPage
 import AddEntryPage from './pages/AddEntryPage/AddEntryPage';
 import AddIncomePage from './pages/AddIncomePage/AddIncomePage';
 import StatisticsPage from './pages/StatisticsPage/StatisticsPage';
+import TransactionDetailsPage from './pages/TransactionDetailsPage/TransactionDetailsPage';
 
 function App() {
     return (
@@ -65,7 +66,7 @@ function App() {
                     />
                     <Route
                         path={ROUTES.TRANSACTION_DETAILS.route + '/:id'}
-                        element={<div>Transaction Details Page</div>}
+                        element={<TransactionDetailsPage />}
                     />
                 </Routes>
                 <Footer />

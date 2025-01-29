@@ -8,4 +8,6 @@ export interface Transaction {
     amount: number;
     accountName: Account;
     date: string;
+    description: string;
+    balance: number;
 }
