@@ -33,7 +33,7 @@ export const useStatisticsData = () => {
     useEffect(() => {
         if (data) {
             // TODO: use such ref data.data[filters.transactionType] instead of array
-            const array = filters.transactionType === 'income' ? data.data.transactions : data.data.expenses;
+            const array = filters.transactionType === 'income' ? data.data.income : data.data.expenses;
             const updatedData = array.map((transaction: Transaction) => ({
                 ...transaction,
                 date: transaction.date.slice(0, 10),
