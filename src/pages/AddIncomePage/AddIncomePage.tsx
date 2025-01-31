@@ -18,8 +18,8 @@ function AddIncomePage() {
 
     const [sum, setSum] = useState(0);
     const [details, setDetails] = useState({
-        incomeTypeId: -1,
-        accountId: -1,
+        incomeTypeId: 1,
+        accountId: 1,
         description: '',
     });
 
