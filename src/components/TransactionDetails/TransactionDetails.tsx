@@ -5,6 +5,7 @@ import { Transaction } from '../../types/Transaction';
 import { Account } from '../../types/Account';
 import TransactionDetailsEdit from '../TransactionDetailsEdit/TransactionDetailsEdit';
 import Button from '../Button/Button';
+import { CorrespondingTransactionType } from '../../constants/correspondingTransactionType';
 
 function TransactionDetails() {
     const { id } = useParams();
@@ -21,26 +22,15 @@ function TransactionDetails() {
         balance: 'Balance',
     };
     const EXPENSE_TRANSACTION: Transaction = {
-        id: 760,
-        type: 0,
-        date: '2025-01-08T18:28:48',
-        amount: 0,
+        id: 771,
+        type: 1,
+        date: '2025-01-31T14:44:40',
+        amount: 30,
+        description: '',
         accountName: Account.UkrSib,
-        categoryName: 'Зарплата',
-        balance: 46475.31,
-        description: 'Вареники, пельмені',
+        categoryName: 'Таксі',
+        balance: 46737.53,
     };
-
-    // const INCOME_TRANSACTION = {
-    //         "id": 711,
-    //         "type": ,
-    //         "date": "2025-01-06T00:00:00",
-    //         "amount": 425,
-    //         "description": "Олег за Лігурію",
-    //         "accountName": "Privat",
-    //         "categoryName": "Перекази",
-    //         "balance": 17397.59
-    // }
 
     const handleSetEditMode = () => {
         setIsEditMode(true);
@@ -72,7 +62,11 @@ function TransactionDetails() {
                             {TransactionDetailsNames[key as keyof Transaction]}
                         </div>
                         <div className={styles.detailsValue}>
-                            {EXPENSE_TRANSACTION[key as keyof Transaction]}
+                            {key === 'type'
+                                ? CorrespondingTransactionType[
+                                      EXPENSE_TRANSACTION[key]
+                                  ]
+                                : EXPENSE_TRANSACTION[key as keyof Transaction]}
                         </div>
                     </div>
                 );

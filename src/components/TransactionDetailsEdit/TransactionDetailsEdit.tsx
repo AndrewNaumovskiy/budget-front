@@ -79,14 +79,7 @@ function TransactionDetailsEdit({
         onDetailsChange('type', +type);
         setIsCategoryPickerShown(+type === TransactionType.Expense);
 
-        if (+type === TransactionType.Expense) {
-            setInitialDataForExpense();
-        } else {
-            updateSubcategoryOptions(
-                +type as TransactionType,
-                selectedCategoryId,
-            );
-        }
+        updateSubcategoryOptions(+type as TransactionType, selectedCategoryId);
     };
 
     const onDetailsChange = (key: string, value: string | number) => {
@@ -110,7 +103,7 @@ function TransactionDetailsEdit({
         setIsEditMode(false);
     };
 
-    const setInitialDataForExpense = () => {
+    const setDefaultDataForExpense = () => {
         const initialCategory = categoriesWithSubcategories[0];
 
         setSelectedCategoryId(initialCategory?.id || 0);
@@ -125,11 +118,33 @@ function TransactionDetailsEdit({
         onDetailsChange('categoryName', initialSubCategories[0]?.value);
     };
 
+    const setInitialDataForExpense = () => {
+        const selectedCategory = categoriesWithSubcategories.find((category) =>
+            category.subCategories.some(
+                (sub) => sub.name === editableDetails.categoryName,
+            ),
+        );
+
+        if (!selectedCategory) {
+            return;
+        }
+
+        setSelectedCategoryId(selectedCategory.id);
+
+        const subCategories = selectedCategory.subCategories.map((sub) => ({
+            value: sub.name,
+            label: sub.name,
+        }));
+
+        setSubcategoryOptions(subCategories);
+    };
+
     useEffect(() => {
         if (
             categoriesWithSubcategories.length === 0 ||
             editableDetails.type === TransactionType.Income
         ) {
+            setDefaultDataForExpense();
             return;
         }
 
