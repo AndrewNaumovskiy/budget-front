@@ -6,21 +6,12 @@ import { Account } from '../../types/Account';
 import TransactionDetailsEdit from '../TransactionDetailsEdit/TransactionDetailsEdit';
 import Button from '../Button/Button';
 import { CorrespondingTransactionType } from '../../constants/correspondingTransactionType';
+import { TransactionDetailsNames } from '../../constants/transactionDetailsNames';
 
 function TransactionDetails() {
     const { id } = useParams();
     const [isEditMode, setIsEditMode] = useState(false);
 
-    const TransactionDetailsNames: { [key: string]: string } = {
-        id: 'ID',
-        type: 'Type',
-        date: 'Date',
-        amount: 'Amount',
-        description: 'Description',
-        accountName: 'Account',
-        categoryName: 'Category',
-        balance: 'Balance',
-    };
     const EXPENSE_TRANSACTION: Transaction = {
         id: 771,
         type: 1,
