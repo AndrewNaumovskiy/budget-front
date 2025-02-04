@@ -4,6 +4,7 @@ export const API_URLs = {
     ADD_EXPENSES: 'expenses',
     GET_EXPENSES_FOR_MONTH: 'expenses',
     GET_CATEGORIES_AND_SUB_CATEGORIES: 'expenses/categories',
+    GET_TRANSACTION_BY_ID: 'transactions/',
     ADD_INCOME: 'income',
     GET_INCOME_CATEGORIES: 'income/categories',
     GET_SHORT_SUMMARY: 'transactions/summary',

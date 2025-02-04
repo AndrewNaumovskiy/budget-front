@@ -1,27 +1,20 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useParams } from 'react-router';
 import styles from './TransactionDetails.module.css';
 import { Transaction } from '../../types/Transaction';
-import { Account } from '../../types/Account';
 import TransactionDetailsEdit from '../TransactionDetailsEdit/TransactionDetailsEdit';
 import Button from '../Button/Button';
 import { CorrespondingTransactionType } from '../../constants/correspondingTransactionType';
 import { TransactionDetailsNames } from '../../constants/transactionDetailsNames';
+import { useTransactionById } from '../../hooks/useTransactionById';
+import Loader from '../Loader/Loader';
+import SomethingWentWrong from '../SomethingWentWrong/SomethingWentWrong';
 
 function TransactionDetails() {
     const { id } = useParams();
-    const [isEditMode, setIsEditMode] = useState(false);
+    const { transaction, isLoading, error } = useTransactionById(id as string);
 
-    const EXPENSE_TRANSACTION: Transaction = {
-        id: 771,
-        type: 1,
-        date: '2025-01-31T14:44:40',
-        amount: 30,
-        description: '',
-        accountName: Account.UkrSib,
-        categoryName: 'Таксі',
-        balance: 46737.53,
-    };
+    const [isEditMode, setIsEditMode] = useState(false);
 
     const handleSetEditMode = () => {
         setIsEditMode(true);
@@ -30,15 +23,18 @@ function TransactionDetails() {
     const handleDeleteTransaction = () => {
         // delete transaction by id
     };
+    if (isLoading) {
+        return <Loader />;
+    }
 
-    useEffect(() => {
-        // fetch transaction details by id
-    }, [id]);
+    if (error) {
+        return <SomethingWentWrong title="Failed to get transaction details" />;
+    }
 
     if (isEditMode) {
         return (
             <TransactionDetailsEdit
-                transaction={EXPENSE_TRANSACTION}
+                transaction={transaction}
                 setIsEditMode={setIsEditMode}
             />
         );
@@ -46,7 +42,11 @@ function TransactionDetails() {
 
     return (
         <div className={styles.detailsContainer}>
-            {Object.keys(EXPENSE_TRANSACTION).map((key) => {
+            {Object.keys(transaction).map((key) => {
+                if (!transaction[key as keyof Transaction]) {
+                    return null;
+                }
+
                 return (
                     <div key={key} className={styles.detailsRow}>
                         <div className={styles.detailsName}>
@@ -54,10 +54,8 @@ function TransactionDetails() {
                         </div>
                         <div className={styles.detailsValue}>
                             {key === 'type'
-                                ? CorrespondingTransactionType[
-                                      EXPENSE_TRANSACTION[key]
-                                  ]
-                                : EXPENSE_TRANSACTION[key as keyof Transaction]}
+                                ? CorrespondingTransactionType[transaction[key]]
+                                : transaction[key as keyof Transaction]}
                         </div>
                     </div>
                 );
