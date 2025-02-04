@@ -39,7 +39,12 @@ function CurrentMonthShortSummary() {
     };
 
     useEffect(() => {
-        if (income && expense && savings && unspecified) {
+        if (
+            income != null &&
+            expense != null &&
+            savings != null &&
+            unspecified != null
+        ) {
             parseDataToSummaryItems({
                 income,
                 expenses: expense,

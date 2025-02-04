@@ -6,7 +6,7 @@ import { useEffect } from "react";
 
 
 export const useIncomeTypes = () => {
-    const { data, error, isLoading } = useSWR(API_URLs.GET_INCOME_TYPES, getFetcher);
+    const { data, error, isLoading } = useSWR(API_URLs.GET_INCOME_CATEGORIES, getFetcher);
     const { incomeTypes, setIncomeTypes } = useAddIncomeStore();
 
     useEffect(() => {
