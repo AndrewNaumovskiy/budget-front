@@ -12,6 +12,7 @@ import AddEntryPage from './pages/AddEntryPage/AddEntryPage';
 import AddIncomePage from './pages/AddIncomePage/AddIncomePage';
 import StatisticsPage from './pages/StatisticsPage/StatisticsPage';
 import TransactionDetailsPage from './pages/TransactionDetailsPage/TransactionDetailsPage';
+import LoginPage from './pages/LoginPage/LoginPage';
 
 function App() {
     return (
@@ -68,6 +69,7 @@ function App() {
                         path={ROUTES.TRANSACTION_DETAILS.route + '/:id'}
                         element={<TransactionDetailsPage />}
                     />
+                    <Route path={ROUTES.LOGIN.route} element={<LoginPage />} />
                 </Routes>
                 <Footer />
             </BrowserRouter>

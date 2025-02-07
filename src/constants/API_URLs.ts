@@ -10,4 +10,6 @@ export const API_URLs = {
     GET_SHORT_SUMMARY: 'transactions/summary',
     GET_RECENT_TRANSACTIONS: 'transactions',
     GET_STATISTICS: '',
+    LOG_IN: 'auth/login',
+    REFRESH: 'auth/refresh',
 }

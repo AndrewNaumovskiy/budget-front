@@ -40,5 +40,9 @@ export const ROUTES: { [key: string]: Route } = {
     TRANSACTION_DETAILS: {
         name: 'Transaction Details',
         route: '/transaction-details',
+    },
+    LOGIN: {
+        name: 'Log in',
+        route: '/login',
     }
 }

@@ -1,0 +1,25 @@
+.inputContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.label {
+    font-family: 'Roboto', sans-serif;
+    color: #434341;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.input {
+    width: 100%;
+    padding: 10px 20px;
+    border: 1px solid #7d7e77;
+    border-radius: 10px;
+    background-color: transparent;
+    outline: none;
+    font-family: 'Roboto', sans-serif;
+    color: #434341;
+    font-size: larger;
+}
