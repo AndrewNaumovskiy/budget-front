@@ -1,21 +1,23 @@
 import { Transaction } from '../../types/Transaction';
-import { FaArrowUp } from 'react-icons/fa';
+import { FaArrowUp, FaExchangeAlt, FaPiggyBank } from 'react-icons/fa';
 import { FaArrowDown } from 'react-icons/fa6';
 import styles from './TransactionItem.module.css';
 import { useNavigate } from 'react-router';
 import { ROUTES } from '../../constants/routes';
 import { ACCOUNT_LOGOS } from '../../constants/accountLogos';
 import { truncateString } from '../../utils/truncateString';
-import React from 'react';
+import { TransactionType } from '../../types/TransactionType';
 
 interface TransactionItemProps {
     transaction: Transaction;
 }
 
 const TRANSACTION_ICONS = {
-    0: <FaArrowDown size={20} color="green" />,
-    1: <FaArrowUp size={20} color="red" />,
-    2: <React.Fragment />,
+    [TransactionType.Income]: <FaArrowDown size={20} color="green" />,
+    [TransactionType.Expense]: <FaArrowUp size={20} color="red" />,
+    [TransactionType.Savings]: <FaPiggyBank size={20} color="blue" />,
+    [TransactionType.TransferFrom]: <FaExchangeAlt size={20} color="orange" />,
+    [TransactionType.TransferTo]: <FaExchangeAlt size={20} color="purple" />,
 };
 
 function TransactionItem({ transaction }: TransactionItemProps) {
