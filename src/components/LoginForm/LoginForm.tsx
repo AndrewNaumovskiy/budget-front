@@ -34,7 +34,10 @@ function LoginForm() {
             const response = await trigger({ username, password });
             enqueueSnackbar('Login successful!', { variant: 'success' });
 
-            localStorage.setItem('token', response.data.token);
+            // TODO: Store tokens on BE side using httpOnly cookies.
+            localStorage.setItem('accessToken', response.data.accessToken);
+            localStorage.setItem('refreshToken', response.data.refreshToken);
+
             setTimeout(() => {
                 navigate(ROUTES.DASHBOARD.route);
             }, 1000);
