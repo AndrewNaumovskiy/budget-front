@@ -5,7 +5,6 @@ import styles from './RecentTransactionsList.module.css';
 import { API_URLs } from '../../constants/API_URLs';
 import { getFetcher } from '../../api/fetchers';
 import { useEffect, useState } from 'react';
-import { getTime } from '../../utils/getTime';
 import SomethingWentWrong from '../SomethingWentWrong/SomethingWentWrong';
 import { enqueueSnackbar } from 'notistack';
 
@@ -22,15 +21,22 @@ function RecentTransactionsList() {
         [],
     );
 
+    const getDate = (fullDate: string) => {
+        const date = new Date(fullDate);
+
+        return `${date.getHours()}:${String(date.getMinutes()).padStart(
+            2,
+            '0',
+        )} ${date.toLocaleString('en-US', {
+            month: 'long',
+        })} ${date.getDate()}`;
+    };
+
     const parseDataToRecentTransactions = (data: Transaction[]) => {
         const updatedData = data.map((transaction) => {
             return {
-                id: transaction.id,
-                type: transaction.type,
-                categoryName: transaction.categoryName,
-                amount: transaction.amount,
-                accountName: transaction.accountName,
-                date: getTime(transaction.date),
+                ...transaction,
+                date: getDate(transaction.date),
             };
         });
 
@@ -41,6 +47,7 @@ function RecentTransactionsList() {
         if (data) {
             parseDataToRecentTransactions(data.data.transactions);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [data]);
 
     if (isLoading) {
