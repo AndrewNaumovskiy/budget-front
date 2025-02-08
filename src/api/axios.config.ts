@@ -11,19 +11,36 @@ const apiClient = axios.create({
 })
 
 apiClient.interceptors.response.use(
-    (response) => response,
+    (res) => res,
     async (error) => {
-        if (error.response?.status === 401) {
+        const initialRequest = error.config;
+
+        if (initialRequest?.url === API_URLs.REFRESH) {
+            return Promise.reject(error);
+        }
+        if (
+            error?.response?.status === 401 &&
+            !initialRequest?._retry &&
+            localStorage.getItem('token')
+        ) {
+            initialRequest._retry = true;
+
             try {
-                await fetch(API_URLs.REFRESH, {
-                    method: 'POST',
-                    credentials: 'include'
+                const response = await axios.get(API_URLs.REFRESH, {
+                    withCredentials: true,
                 });
-                return apiClient(error.config);
-            } catch {
-                window.location.href = '/login';
+
+                localStorage.setItem('accessToken', response.data.accessToken);
+
+                initialRequest.headers['Authorization'] = `Bearer ${response.data.accessToken}`;
+
+                return apiClient.request(initialRequest);
+            } catch (refreshError) {
+                localStorage.removeItem('accessToken');
+                return Promise.reject(refreshError);
             }
         }
+
         return Promise.reject(error);
     }
 );
