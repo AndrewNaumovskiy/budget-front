@@ -43,7 +43,11 @@ function TransactionDetails() {
     return (
         <div className={styles.detailsContainer}>
             {Object.keys(transaction).map((key) => {
-                if (!transaction[key as keyof Transaction]) {
+                if (
+                    transaction[key as keyof Transaction] === null ||
+                    transaction[key as keyof Transaction] === undefined ||
+                    transaction[key as keyof Transaction] === ''
+                ) {
                     return null;
                 }
 
