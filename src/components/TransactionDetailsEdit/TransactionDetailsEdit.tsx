@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Transaction } from '../../types/Transaction';
 import Picker from '../Picker/Picker';
 import styles from './TransactionDetailsEdit.module.css';
@@ -8,6 +8,14 @@ import { Option } from '../../types';
 import { TransactionType } from '../../types/TransactionType';
 import { useIncomeTypes } from '../../hooks/useIncomeTypes';
 import { TRANSACTION_TYPES_OPTIONS } from '../../constants/transactionTypeOptions';
+import SumEntryField from '../SumEntryField/SumEntryField';
+import TextareaField from '../TextareaField/TextareaField';
+import DatePicker from '../DatePicker/DatePicker';
+import { transformISOSDatetoInputFormat } from '../../utils/transformISOSDatetoInputFormat';
+import { getCurrentDate } from '../../utils/getCurrentDate';
+import { useEditTransaction } from '../../hooks/useEditTransaction';
+import { enqueueSnackbar } from 'notistack';
+import { areObjectsEqualShallow } from '../../utils/areObjectsEqualShallow';
 
 interface TransactionDetailsEditProps {
     transaction: Transaction;
@@ -18,6 +26,10 @@ function TransactionDetailsEdit({
     transaction,
     setIsEditMode,
 }: TransactionDetailsEditProps) {
+    const { data, error, isMutating, trigger } = useEditTransaction(
+        transaction.id,
+    );
+
     const { categoriesWithSubcategories, categories } = useExpenseCategories();
     const { incomeTypes } = useIncomeTypes();
 
@@ -89,7 +101,17 @@ function TransactionDetailsEdit({
         }));
     };
 
-    const handleSaveChanges = () => {};
+    const handleSaveChanges = () => {
+        trigger({
+            id: transaction.id,
+            date: editableDetails.date,
+            amount: editableDetails.amount,
+            accountId: 1,
+            categoryId: +editableDetails.categoryName,
+            description: editableDetails.description,
+            type: editableDetails.type,
+        });
+    };
 
     const handleDiscardChanges = () => {
         setEditableDetails({
@@ -139,6 +161,16 @@ function TransactionDetailsEdit({
         setSubcategoryOptions(subCategories);
     };
 
+    const isSaveButtonDisabled = useMemo(() => {
+        return (
+            isMutating ||
+            areObjectsEqualShallow(
+                editableDetails,
+                transaction as unknown as Record<string, unknown>,
+            )
+        );
+    }, [editableDetails, isMutating, transaction]);
+
     useEffect(() => {
         if (
             categoriesWithSubcategories.length === 0 ||
@@ -163,13 +195,41 @@ function TransactionDetailsEdit({
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [incomeTypes]);
 
+    useEffect(() => {
+        if (error) {
+            enqueueSnackbar('Failed to save changes', { variant: 'error' });
+        }
+    }, [error]);
+
+    useEffect(() => {
+        if (data) {
+            enqueueSnackbar('Changes saved', { variant: 'success' });
+            setTimeout(() => {
+                setIsEditMode(false);
+            }, 1500);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [data]);
+
     return (
         <div className={styles.editContainer}>
+            <DatePicker
+                value={transformISOSDatetoInputFormat(editableDetails.date)}
+                max={getCurrentDate()}
+                onChange={(e) => onDetailsChange('date', e.target.value)}
+                disabled={isMutating}
+            />
+            <SumEntryField
+                sum={editableDetails.amount}
+                disabled={isMutating}
+                handleChangeSum={(value) => onDetailsChange('amount', value)}
+            />
             <Picker
                 label="Transaction Type"
                 data={TRANSACTION_TYPES_OPTIONS}
                 value={editableDetails.type}
                 onChange={handleChangeType}
+                disabled={isMutating}
             />
             {isCategoryPickerShown ? (
                 <Picker
@@ -177,6 +237,7 @@ function TransactionDetailsEdit({
                     data={categories}
                     value={selectedCategoryId}
                     onChange={handleCategoryChange}
+                    disabled={isMutating}
                 />
             ) : null}
             <Picker
@@ -184,9 +245,24 @@ function TransactionDetailsEdit({
                 data={subcategoryOptions}
                 value={editableDetails.categoryName}
                 onChange={(value) => onDetailsChange('categoryName', value)}
+                disabled={isMutating}
             />
-            <Button label="Save" onClick={handleSaveChanges} />
-            <Button label="Discard" onClick={handleDiscardChanges} />
+            <TextareaField
+                value={editableDetails.description}
+                onChange={(value) => onDetailsChange('description', value)}
+                rows={4}
+                disabled={isMutating}
+            />
+            <Button
+                label="Save"
+                onClick={handleSaveChanges}
+                disabled={isSaveButtonDisabled}
+            />
+            <Button
+                label="Discard"
+                onClick={handleDiscardChanges}
+                disabled={isMutating}
+            />
         </div>
     );
 }

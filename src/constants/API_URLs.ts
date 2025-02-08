@@ -12,4 +12,5 @@ export const API_URLs = {
     GET_STATISTICS: '',
     LOG_IN: 'auth/login',
     REFRESH: 'auth/refresh',
+    EDIT_TRANSACTION: 'transactions',
 }

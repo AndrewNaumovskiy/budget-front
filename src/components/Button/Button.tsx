@@ -19,7 +19,9 @@ function Button({
         <button
             onClick={onClick}
             disabled={disabled}
-            className={`${styles.button} ${styles[variant]}`}
+            className={`${styles.button} ${styles[variant]} ${
+                disabled ? styles.disabled : ''
+            }`}
         >
             {label}
         </button>

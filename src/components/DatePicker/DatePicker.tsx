@@ -7,9 +7,17 @@ interface DatePickerProps {
     min?: string;
     max?: string;
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    disabled?: boolean;
 }
 
-function DatePicker({ min, max, label, value, onChange }: DatePickerProps) {
+function DatePicker({
+    min,
+    max,
+    label,
+    value,
+    onChange,
+    disabled = false,
+}: DatePickerProps) {
     return (
         <div className={styles.datePickerContainer}>
             {label ? <label className={styles.label}>{label}</label> : null}
@@ -20,6 +28,7 @@ function DatePicker({ min, max, label, value, onChange }: DatePickerProps) {
                 type="date"
                 value={value}
                 onChange={onChange}
+                disabled={disabled}
             />
         </div>
     );
