@@ -16,6 +16,7 @@ import { getCurrentDate } from '../../utils/getCurrentDate';
 import { useEditTransaction } from '../../hooks/useEditTransaction';
 import { enqueueSnackbar } from 'notistack';
 import { areObjectsEqualShallow } from '../../utils/areObjectsEqualShallow';
+import { useAccounts } from '../../hooks/useAccounts';
 
 interface TransactionDetailsEditProps {
     transaction: Transaction;
@@ -29,6 +30,7 @@ function TransactionDetailsEdit({
     const { data, error, isMutating, trigger } = useEditTransaction(
         transaction.id,
     );
+    const { accounts } = useAccounts();
 
     const { categoriesWithSubcategories, categories } = useExpenseCategories();
     const { incomeTypes } = useIncomeTypes();
@@ -106,7 +108,7 @@ function TransactionDetailsEdit({
             id: transaction.id,
             date: editableDetails.date,
             amount: editableDetails.amount,
-            accountId: 1,
+            accountId: +editableDetails.accountName,
             categoryId: +editableDetails.categoryName,
             description: editableDetails.description,
             type: editableDetails.type,
@@ -171,6 +173,10 @@ function TransactionDetailsEdit({
         );
     }, [editableDetails, isMutating, transaction]);
 
+    const selectedAccountId = accounts.find(
+        (account) => account.label === editableDetails.accountName,
+    )?.value;
+
     useEffect(() => {
         if (
             categoriesWithSubcategories.length === 0 ||
@@ -223,6 +229,13 @@ function TransactionDetailsEdit({
                 sum={editableDetails.amount}
                 disabled={isMutating}
                 handleChangeSum={(value) => onDetailsChange('amount', value)}
+            />
+            <Picker
+                label="Account"
+                data={accounts}
+                value={selectedAccountId as number}
+                onChange={(value) => onDetailsChange('accountName', value)}
+                disabled={isMutating}
             />
             <Picker
                 label="Transaction Type"
