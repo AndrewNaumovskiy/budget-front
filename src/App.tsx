@@ -13,6 +13,7 @@ import AddIncomePage from './pages/AddIncomePage/AddIncomePage';
 import StatisticsPage from './pages/StatisticsPage/StatisticsPage';
 import TransactionDetailsPage from './pages/TransactionDetailsPage/TransactionDetailsPage';
 import LoginPage from './pages/LoginPage/LoginPage';
+import AccountPage from './pages/AccountPage/AccountPage';
 
 function App() {
     return (
@@ -51,7 +52,7 @@ function App() {
                     />
                     <Route
                         path={ROUTES.ACCOUNT.route}
-                        element={<div>Account Page</div>}
+                        element={<AccountPage />}
                     />
                     <Route
                         path={ROUTES.SAVINGS.route}
