@@ -2,7 +2,6 @@ import { useNavigate } from 'react-router';
 import ShortSummaryRow from '../ShortSummaryRow/ShortSummaryRow';
 import styles from './CurrentMonthShortSummary.module.css';
 import { ROUTES } from '../../constants/routes';
-import { getFetcher } from '../../api/fetchers';
 import { API_URLs } from '../../constants/API_URLs';
 import { useEffect, useState } from 'react';
 import { ShortSummaryData } from '../../types/ShortSummaryData';
@@ -17,7 +16,7 @@ function CurrentMonthShortSummary() {
 
     const [summaryData, setSummaryData] = useState<SummaryItem[]>([]);
 
-    const { income, expense, error, isLoading, savings, unspecified } =
+    const { income, expense, error, isLoading, savings, unspecified, mutate } =
         useDetailedSummaryForMonth();
 
     const handleNavigateToDetailedSummary = () => {
@@ -35,7 +34,7 @@ function CurrentMonthShortSummary() {
     };
 
     const handleFetch = () => {
-        getFetcher(API_URLs.GET_SHORT_SUMMARY);
+        mutate(API_URLs.GET_SHORT_SUMMARY);
     };
 
     useEffect(() => {

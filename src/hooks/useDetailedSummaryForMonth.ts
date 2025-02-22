@@ -11,7 +11,7 @@ export const useDetailedSummaryForMonth = (initialMonth?: number, initialYear?: 
         return `${API_URLs.GET_SHORT_SUMMARY}?month=${month}&year=${year}`;
     }, [initialMonth, initialYear]);
 
-    const { data, isLoading, error } = useSWR(url, getFetcher);
+    const { data, isLoading, error, mutate } = useSWR(url, getFetcher);
 
     const [income, setIncome] = useState<number>(0);
     const [expense, setExpense] = useState<number>(0);
@@ -35,6 +35,6 @@ export const useDetailedSummaryForMonth = (initialMonth?: number, initialYear?: 
     }, [data]);
 
     return {
-        income, expense, savings, unspecified, handleDateChange, isLoading, error
+        income, expense, savings, unspecified, handleDateChange, isLoading, error, mutate
     }
 }
