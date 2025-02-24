@@ -1,20 +1,34 @@
 import { SnackbarProvider } from 'notistack';
 import { BrowserRouter, Route, Routes } from 'react-router';
-
-import AddExpensesPage from './pages/AddExpensesPage';
 import { ROUTES } from './constants/routes';
-import DashboardPage from './pages/DashboardPage/DashboardPage';
 import Header from './components/Header';
 import Footer from './components/Footer/Footer';
 import './App.css';
-import DetailedSummaryPage from './pages/DetailedSummaryPage/DetailedSummaryPage';
-import AddEntryPage from './pages/AddEntryPage/AddEntryPage';
-import AddIncomePage from './pages/AddIncomePage/AddIncomePage';
-import StatisticsPage from './pages/StatisticsPage/StatisticsPage';
-import TransactionDetailsPage from './pages/TransactionDetailsPage/TransactionDetailsPage';
-import LoginPage from './pages/LoginPage/LoginPage';
-import AccountPage from './pages/AccountPage/AccountPage';
 import { SwrProvider } from './providers/swrProvider';
+import React from 'react';
+import Loader from './components/Loader/Loader';
+
+const AddEntry = React.lazy(() => import('./pages/AddEntryPage/AddEntryPage'));
+const AddExpenses = React.lazy(
+    () => import('./pages/AddExpensesPage/AddExpensesPage'),
+);
+const AddIncome = React.lazy(
+    () => import('./pages/AddIncomePage/AddIncomePage'),
+);
+const Dashboard = React.lazy(
+    () => import('./pages/DashboardPage/DashboardPage'),
+);
+const DetailedSummary = React.lazy(
+    () => import('./pages/DetailedSummaryPage/DetailedSummaryPage'),
+);
+const Account = React.lazy(() => import('./pages/AccountPage/AccountPage'));
+const Statistics = React.lazy(
+    () => import('./pages/StatisticsPage/StatisticsPage'),
+);
+const TransactionDetails = React.lazy(
+    () => import('./pages/TransactionDetailsPage/TransactionDetailsPage'),
+);
+const Login = React.lazy(() => import('./pages/LoginPage/LoginPage'));
 
 function App() {
     return (
@@ -31,52 +45,54 @@ function App() {
             >
                 <BrowserRouter>
                     <Header />
-                    <Routes>
-                        <Route
-                            path={ROUTES.ADD_ENTRY.route}
-                            element={<AddEntryPage />}
-                        />
-                        <Route
-                            path={ROUTES.ADD_EXPENSES.route}
-                            element={<AddExpensesPage />}
-                        />
-                        <Route
-                            path={ROUTES.ADD_INCOME.route}
-                            element={<AddIncomePage />}
-                        />
-                        <Route
-                            path={ROUTES.DASHBOARD.route}
-                            element={<DashboardPage />}
-                        />
-                        <Route
-                            path={ROUTES.DETAILED_SUMMARY.route}
-                            element={<DetailedSummaryPage />}
-                        />
-                        <Route
-                            path={ROUTES.ACCOUNT.route}
-                            element={<AccountPage />}
-                        />
-                        <Route
-                            path={ROUTES.SAVINGS.route}
-                            element={<div>Savings Page</div>}
-                        />
-                        <Route
-                            path={ROUTES.STATISTICS.route}
-                            element={<StatisticsPage />}
-                        />
-                        <Route
-                            path={ROUTES.SETTINGS.route}
-                            element={<div>Settings Page</div>}
-                        />
-                        <Route
-                            path={ROUTES.TRANSACTION_DETAILS.route + '/:id'}
-                            element={<TransactionDetailsPage />}
-                        />
-                        <Route
-                            path={ROUTES.LOGIN.route}
-                            element={<LoginPage />}
-                        />
-                    </Routes>
+                    <React.Suspense fallback={<Loader />}>
+                        <Routes>
+                            <Route
+                                path={ROUTES.ADD_ENTRY.route}
+                                element={<AddEntry />}
+                            />
+                            <Route
+                                path={ROUTES.ADD_EXPENSES.route}
+                                element={<AddExpenses />}
+                            />
+                            <Route
+                                path={ROUTES.ADD_INCOME.route}
+                                element={<AddIncome />}
+                            />
+                            <Route
+                                path={ROUTES.DASHBOARD.route}
+                                element={<Dashboard />}
+                            />
+                            <Route
+                                path={ROUTES.DETAILED_SUMMARY.route}
+                                element={<DetailedSummary />}
+                            />
+                            <Route
+                                path={ROUTES.ACCOUNT.route}
+                                element={<Account />}
+                            />
+                            <Route
+                                path={ROUTES.SAVINGS.route}
+                                element={<div>Savings Page</div>}
+                            />
+                            <Route
+                                path={ROUTES.STATISTICS.route}
+                                element={<Statistics />}
+                            />
+                            <Route
+                                path={ROUTES.SETTINGS.route}
+                                element={<div>Settings Page</div>}
+                            />
+                            <Route
+                                path={ROUTES.TRANSACTION_DETAILS.route + '/:id'}
+                                element={<TransactionDetails />}
+                            />
+                            <Route
+                                path={ROUTES.LOGIN.route}
+                                element={<Login />}
+                            />
+                        </Routes>
+                    </React.Suspense>
                     <Footer />
                 </BrowserRouter>
             </SnackbarProvider>
